@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "npm_library",
+  "name": "npm / Node.js Library",
+  "product_type": "web",
+  "target_architecture": "Stable public API, explicit supported runtime range, testing of package exports and compatibility.",
+  "packs": [
+    "web"
+  ],
+  "detection": [
+    {
+      "kind": "json_key",
+      "value": "package.json:exports",
+      "weight": 90
+    },
+    {
+      "kind": "json_key",
+      "value": "package.json:bin",
+      "weight": 70
+    },
+    {
+      "kind": "json_key",
+      "value": "package.json:types",
+      "weight": 55
+    }
+  ],
+  "quality_priorities": [
+    "public API stability",
+    "semver",
+    "package integrity"
+  ],
+  "source_ids": [
+    "B03",
+    "B06"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "A CLI package can correctly use bin without exports."
+}

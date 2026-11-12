@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "id": "api_backend",
+  "name": "REST/GraphQL API Backend",
+  "product_type": "web",
+  "target_architecture": "Modular HTTP adapters, documented contracts, isolated services/data access, migrations and tracing.",
+  "packs": [
+    "web"
+  ],
+  "detection": [
+    {
+      "kind": "text",
+      "value": "FastAPI(",
+      "weight": 80
+    },
+    {
+      "kind": "text",
+      "value": "express(",
+      "weight": 75
+    },
+    {
+      "kind": "text",
+      "value": "fastify(",
+      "weight": 75
+    },
+    {
+      "kind": "text",
+      "value": "GraphQLSchema(",
+      "weight": 80
+    }
+  ],
+  "quality_priorities": [
+    "API contracts",
+    "data migration",
+    "observability"
+  ],
+  "source_ids": [
+    "B01",
+    "B04"
+  ],
+  "status": "experimental",
+  "coverage": "guidance_only",
+  "notes": "API-detection terms may also occur in test fixtures."
+}

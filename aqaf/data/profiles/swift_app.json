@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "swift_app",
+  "name": "Native Apple Application",
+  "product_type": "mobile",
+  "target_architecture": "Swift feature/state boundaries, injected services, isolation of IO from UI; package modules if justified.",
+  "packs": [
+    "mobile"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "Package.swift",
+      "weight": 80
+    },
+    {
+      "kind": "extension",
+      "value": ".swift",
+      "weight": 55
+    }
+  ],
+  "quality_priorities": [
+    "UI state separation",
+    "concurrency ownership",
+    "feature testability"
+  ],
+  "source_ids": [
+    "B01",
+    "B02"
+  ],
+  "status": "heuristic",
+  "coverage": "heuristic",
+  "notes": ""
+}

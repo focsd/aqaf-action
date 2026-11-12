@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "google_apps_script",
+  "name": "Google Apps Script Application",
+  "product_type": "automation",
+  "target_architecture": "Thin triggers, services and Google API adapters with quota-aware retries and idempotency.",
+  "packs": [
+    "automation"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "appsscript.json",
+      "weight": 100
+    },
+    {
+      "kind": "extension",
+      "value": ".gs",
+      "weight": 85
+    }
+  ],
+  "quality_priorities": [
+    "trigger isolation",
+    "quota controls",
+    "minimal scopes"
+  ],
+  "source_ids": [
+    "B03",
+    "B06"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Checks are heuristic; review OAuth scopes and authorization manually."
+}

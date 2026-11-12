@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "browser_extension",
+  "name": "Browser Extension",
+  "product_type": "web",
+  "target_architecture": "UI/content/background isolation, narrow permissions, message schema validation and secure storage.",
+  "packs": [
+    "web"
+  ],
+  "detection": [
+    {
+      "kind": "json_key",
+      "value": "manifest.json:manifest_version",
+      "weight": 110
+    }
+  ],
+  "quality_priorities": [
+    "permission minimization",
+    "message validation",
+    "MV3 background lifecycle"
+  ],
+  "source_ids": [
+    "B01",
+    "B09"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Overbroad permissions detector is heuristic; permissions can be justified."
+}

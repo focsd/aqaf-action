@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "experimental_unscored",
+  "rubric": "companions/documentation/14_doc_review_rubric.md",
+  "checks": [
+    {
+      "id": "AQD-LINK-001",
+      "kind": "local_path",
+      "limitation": "Excluded and generated targets require separate verification."
+    },
+    {
+      "id": "AQD-LINK-002",
+      "kind": "portable_spelling",
+      "limitation": "Filesystem and renderer normalization can vary."
+    },
+    {
+      "id": "AQD-LINK-003",
+      "kind": "unresolved_route_or_scope",
+      "limitation": "Unknown is not broken."
+    },
+    {
+      "id": "AQD-LINK-004",
+      "kind": "heading_anchor",
+      "limitation": "Bounded common Markdown heading convention."
+    },
+    {
+      "id": "AQD-CLI-001",
+      "kind": "undocumented_static_flag",
+      "limitation": "Publicness is inferred."
+    },
+    {
+      "id": "AQD-CLI-002",
+      "kind": "literal_default_drift",
+      "limitation": "Environment/config precedence remains unverified."
+    },
+    {
+      "id": "AQD-CLI-003",
+      "kind": "unresolved_documented_flag",
+      "limitation": "Dynamic or external CLI registrations may explain it."
+    },
+    {
+      "id": "AQD-PRODUCT-001",
+      "kind": "reader_need",
+      "limitation": "Keywords do not establish adequate documentation."
+    },
+    {
+      "id": "AQD-API-001",
+      "kind": "undocumented_route_candidate",
+      "limitation": "A route-shaped call may be internal or dynamically mounted; exposure remains inferred."
+    }
+  ]
+}

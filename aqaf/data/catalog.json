@@ -1,0 +1,562 @@
+[
+  {
+    "id": "AQ-DOC-001",
+    "name": "Architecture decisions should be documented",
+    "severity": "medium",
+    "profiles": [
+      "all"
+    ],
+    "evidence": [
+      "docs/architecture",
+      "ADR files",
+      "README architecture section"
+    ],
+    "rationale": "Important architecture decisions are easier to revisit when recorded with context, options, and consequences.",
+    "references": [
+      "Software Architecture in Practice",
+      "Fundamentals of Software Architecture"
+    ],
+    "automatable": "partially",
+    "remediation": "Add docs/architecture and ADRs for significant decisions.",
+    "source_ids": [
+      "B01",
+      "B02",
+      "B11"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-DEP-001",
+    "name": "Core/domain logic should not depend on infrastructure details",
+    "severity": "high",
+    "profiles": [
+      "saas",
+      "desktop",
+      "ai_pipeline",
+      "cli",
+      "library"
+    ],
+    "evidence": [
+      "import graph",
+      "package names",
+      "framework imports"
+    ],
+    "rationale": "Stable business rules should be insulated from volatile details such as databases, APIs, frameworks, and UI.",
+    "references": [
+      "Clean Architecture",
+      "Software Architecture in Practice",
+      "eShopOnWeb"
+    ],
+    "automatable": "partially",
+    "remediation": "Introduce ports/interfaces in core/application layer and move concrete implementations to infrastructure/adapters.",
+    "source_ids": [
+      "B09",
+      "B13",
+      "B01"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-MOD-001",
+    "name": "Feature or domain modules should have clear ownership",
+    "severity": "high",
+    "profiles": [
+      "saas",
+      "android",
+      "desktop",
+      "ai_pipeline"
+    ],
+    "evidence": [
+      "directory structure",
+      "module manifests",
+      "imports"
+    ],
+    "rationale": "Modular boundaries reduce change blast radius and prepare a monolith for future extraction only if needed.",
+    "references": [
+      "Domain-Driven Design",
+      "Fundamentals of Software Architecture",
+      "Monolith to Microservices"
+    ],
+    "automatable": "partially",
+    "remediation": "Group code by feature/domain and document module contracts.",
+    "source_ids": [
+      "B05",
+      "B02",
+      "B11"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-TST-001",
+    "name": "Architecture-sensitive areas need tests before refactoring",
+    "severity": "high",
+    "profiles": [
+      "all"
+    ],
+    "evidence": [
+      "tests directory",
+      "test files",
+      "CI"
+    ],
+    "rationale": "Untested code should be characterized before structural changes to avoid edit-and-pray refactoring.",
+    "references": [
+      "Working Effectively with Legacy Code",
+      "Accelerate"
+    ],
+    "automatable": "yes",
+    "remediation": "Add characterization tests around behavior before changing architecture.",
+    "source_ids": [
+      "B06",
+      "B03"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-CFG-001",
+    "name": "Configuration and secrets should be externalized",
+    "severity": "high",
+    "profiles": [
+      "all"
+    ],
+    "evidence": [
+      "hard-coded tokens",
+      "URLs",
+      "API keys",
+      "environment files"
+    ],
+    "rationale": "Hard-coded secrets/config make deployments unsafe and environments hard to manage.",
+    "references": [
+      "Twelve-Factor App principles",
+      "Accelerate",
+      "SonarQube quality/security gates"
+    ],
+    "automatable": "yes",
+    "remediation": "Move secrets/config to environment variables, secret stores, or config files excluded from version control.",
+    "source_ids": [
+      "S06",
+      "B12"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-OBS-001",
+    "name": "Operational code should include logging and explicit error handling",
+    "severity": "medium",
+    "profiles": [
+      "saas",
+      "desktop",
+      "ai_pipeline",
+      "scraper",
+      "cli"
+    ],
+    "evidence": [
+      "logging imports",
+      "try/catch",
+      "error handling paths"
+    ],
+    "rationale": "Systems are easier to operate and debug when failures are visible and intentional.",
+    "references": [
+      "Software Architecture in Practice",
+      "Accelerate"
+    ],
+    "automatable": "partially",
+    "remediation": "Add structured logging and explicit handling for network, filesystem, database, and provider failures.",
+    "source_ids": [
+      "B12",
+      "B01"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-DATA-001",
+    "name": "Data ownership and migrations should be explicit",
+    "severity": "high",
+    "profiles": [
+      "saas",
+      "data_pipeline",
+      "ai_pipeline"
+    ],
+    "evidence": [
+      "migration files",
+      "schema ownership",
+      "repositories"
+    ],
+    "rationale": "Data architecture is often the hardest part to change after product growth.",
+    "references": [
+      "Designing Data-Intensive Applications",
+      "Software Architecture in Practice"
+    ],
+    "automatable": "partially",
+    "remediation": "Document data ownership, schema changes, migrations, retention, and consistency expectations.",
+    "source_ids": [
+      "B04",
+      "B14"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-WP-001",
+    "name": "WordPress hooks should be thin and delegate to services",
+    "severity": "high",
+    "profiles": [
+      "wordpress_plugin"
+    ],
+    "evidence": [
+      "add_action/add_filter usage",
+      "root plugin file size"
+    ],
+    "rationale": "Hook-heavy procedural files become difficult to test and maintain; hooks should adapt WordPress events into application services.",
+    "references": [
+      "WordPress Plugin Handbook",
+      "Fundamentals of Software Architecture"
+    ],
+    "automatable": "partially",
+    "remediation": "Keep root plugin file small. Move behavior into classes/services and protect admin actions with nonce/capability checks.",
+    "source_ids": [
+      "S15",
+      "B13"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-AND-001",
+    "name": "Android UI state and business logic should be separated",
+    "severity": "high",
+    "profiles": [
+      "android"
+    ],
+    "evidence": [
+      "ViewModel usage",
+      "repository/use-case packages",
+      "Gradle modules"
+    ],
+    "rationale": "Android apps need lifecycle-aware boundaries to stay testable and maintainable as screens grow.",
+    "references": [
+      "Android app modularization guide",
+      "Now in Android",
+      "Android Architecture Samples"
+    ],
+    "automatable": "partially",
+    "remediation": "Use ViewModel/repository/use-case boundaries. Consider multi-module structure for growing apps.",
+    "source_ids": [
+      "S14",
+      "B01"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-AI-001",
+    "name": "AI providers, prompts, and models should be configurable and reproducible",
+    "severity": "high",
+    "profiles": [
+      "ai_pipeline"
+    ],
+    "evidence": [
+      "prompt files",
+      "model names",
+      "provider clients",
+      "cache"
+    ],
+    "rationale": "AI systems are hard to debug if prompts/model parameters are scattered and not versioned.",
+    "references": [
+      "Building Evolutionary Architectures",
+      "Designing Data-Intensive Applications"
+    ],
+    "automatable": "partially",
+    "remediation": "Centralize prompt templates, model configuration, provider adapters, cache keys, and evaluation fixtures.",
+    "source_ids": [
+      "B03",
+      "B04"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-CI-001",
+    "name": "New code should pass automated quality gates",
+    "severity": "medium",
+    "profiles": [
+      "all"
+    ],
+    "evidence": [
+      "CI config",
+      "linters",
+      "tests",
+      "quality gates"
+    ],
+    "rationale": "Clean-as-you-change governance prevents new debt while legacy code is improved gradually.",
+    "references": [
+      "Accelerate",
+      "SonarQube Clean as You Code",
+      "Building Evolutionary Architectures"
+    ],
+    "automatable": "yes",
+    "remediation": "Add CI for tests, linting, architecture scan, and security checks appropriate for the stack.",
+    "source_ids": [
+      "B07",
+      "B03"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-SWIFT-001",
+    "name": "Swift UI layer should not own business workflows",
+    "severity": "high",
+    "applies_to": [
+      "swift_app"
+    ],
+    "evidence": [
+      "SwiftUI View or UIKit controller references URLSession, file IO, persistence, analytics, AI provider, or payment SDK directly"
+    ],
+    "rationale": "Swift UI code should remain composable and testable; IO and business workflows belong behind state, use-case, service, or reducer boundaries.",
+    "recommendation": "Move workflow logic into ViewModel/store/use case/service; inject protocols/adapters; add tests around state transitions and service behavior.",
+    "references": [
+      "Swift API Design Guidelines",
+      "Apple Swift Testing",
+      "The Composable Architecture documentation"
+    ],
+    "source_ids": [
+      "S08",
+      "S09",
+      "B13"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-SWIFT-002",
+    "name": "Swift features should have explicit package/module boundaries when growing",
+    "severity": "medium",
+    "applies_to": [
+      "swift_app"
+    ],
+    "evidence": [
+      "Many Swift files with no feature folders, no Packages directory, and no module ownership docs"
+    ],
+    "rationale": "Feature/package boundaries reduce change blast radius and make AI-generated edits safer.",
+    "recommendation": "Introduce feature folders or Swift packages for domain/app core/features/infrastructure; document module contracts.",
+    "references": [
+      "Swift Package Manager documentation",
+      "Swift access control documentation"
+    ],
+    "source_ids": [
+      "S08",
+      "B02"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-RUST-001",
+    "name": "Rust binary entrypoints should be thin",
+    "severity": "high",
+    "applies_to": [
+      "rust_app"
+    ],
+    "evidence": [
+      "Large src/main.rs or main.rs with core workflow, IO orchestration, parsing, and business logic mixed together"
+    ],
+    "rationale": "Library-first Rust projects are easier to test, reuse, benchmark, and evolve.",
+    "recommendation": "Move core workflows to src/lib.rs/modules or workspace crates; keep main.rs focused on CLI/config/top-level error reporting.",
+    "references": [
+      "The Rust Programming Language",
+      "Cargo workspaces documentation"
+    ],
+    "source_ids": [
+      "S10",
+      "B13"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-RUST-002",
+    "name": "Unsafe Rust must be treated as an architectural boundary",
+    "severity": "high",
+    "applies_to": [
+      "rust_app"
+    ],
+    "evidence": [
+      "unsafe blocks/functions/traits without nearby safety comments, invariants, or tests"
+    ],
+    "rationale": "Unsafe code can bypass Rust safety guarantees, so its assumptions must be explicit and reviewable.",
+    "recommendation": "Add SAFETY comments, isolate unsafe code, test invariants, and consider Miri/fuzzing where appropriate.",
+    "references": [
+      "The Rust Programming Language",
+      "MISRust safety-critical Rust research"
+    ],
+    "source_ids": [
+      "S10",
+      "B01"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-RUST-003",
+    "name": "Rust dependency risk should be audited",
+    "severity": "medium",
+    "applies_to": [
+      "rust_app"
+    ],
+    "evidence": [
+      "Cargo.lock exists without cargo-deny/cargo-audit or equivalent dependency policy"
+    ],
+    "rationale": "Rust projects can rely on many transitive dependencies; advisories, licenses, duplicate crates, and source policies should be visible.",
+    "recommendation": "Add cargo-deny or equivalent dependency audit to CI; document allowed licenses and banned crates/sources.",
+    "references": [
+      "cargo-deny",
+      "Auditing Rust Crates Effectively"
+    ],
+    "source_ids": [
+      "S07",
+      "B12"
+    ],
+    "status": "heuristic",
+    "validation_status": "not_expert_calibrated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-EVO-001",
+    "name": "Framework self-improvement must preserve core rule integrity",
+    "severity": "medium",
+    "applies_to": [
+      "aqaf_framework"
+    ],
+    "evidence": [
+      "New examples or findings proposed as core rule changes without validation, references, or counterexamples"
+    ],
+    "rationale": "A review framework becomes noisy if every example mutates the core model. Learning must happen through evidence, profiles, adapters, and validation before core promotion.",
+    "recommendation": "Add proposed changes as experimental rules or product-profile mappings first; require references, example repos, false-positive review, and changelog entry before promotion.",
+    "references": [
+      "Building Evolutionary Architectures",
+      "Software Architecture in Practice"
+    ],
+    "source_ids": [
+      "B01"
+    ],
+    "status": "manual",
+    "validation_status": "not_automated",
+    "false_positive_risk": "medium-to-high",
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+  },
+  {
+    "id": "AQ-EXT-001",
+    "name": "Browser extension permissions should be proportionate",
+    "severity": "high",
+    "profiles": [
+      "browser_extension"
+    ],
+    "evidence": [
+      "manifest or source-level heuristic"
+    ],
+    "rationale": "Broad extension host permissions increase the potential impact of a defect or compromise.",
+    "references": [
+      "B01",
+      "B09"
+    ],
+    "automatable": "partially",
+    "remediation": "Prefer narrowly scoped or optional host permissions and document necessary exceptions.",
+    "source_ids": [
+      "B01",
+      "B09"
+    ],
+    "status": "heuristic",
+    "validation_status": "synthetic_fixtures_only",
+    "false_positive_risk": "medium",
+    "reference_scope": "Architecture guidance; does not validate heuristic accuracy"
+  },
+  {
+    "id": "AQ-GAS-001",
+    "name": "Google Apps Script entrypoints should delegate IO",
+    "severity": "medium",
+    "profiles": [
+      "google_apps_script"
+    ],
+    "evidence": [
+      "manifest or source-level heuristic"
+    ],
+    "rationale": "Thin triggers ease quota management and testing of external integrations.",
+    "references": [
+      "B03",
+      "B06"
+    ],
+    "automatable": "partially",
+    "remediation": "Delegate integration logic from triggers to testable services.",
+    "source_ids": [
+      "B03",
+      "B06"
+    ],
+    "status": "heuristic",
+    "validation_status": "synthetic_fixtures_only",
+    "false_positive_risk": "medium",
+    "reference_scope": "Architecture guidance; does not validate heuristic accuracy"
+  },
+  {
+    "id": "AQ-NPM-001",
+    "name": "npm libraries need explicit public entrypoint",
+    "severity": "medium",
+    "profiles": [
+      "npm_library"
+    ],
+    "evidence": [
+      "manifest or source-level heuristic"
+    ],
+    "rationale": "Package consumers need clear public exports or executable entrypoints.",
+    "references": [
+      "B02",
+      "B03"
+    ],
+    "automatable": "partially",
+    "remediation": "Define exports/main/bin as appropriate and validate packed artifact.",
+    "source_ids": [
+      "B02",
+      "B03"
+    ],
+    "status": "heuristic",
+    "validation_status": "synthetic_fixtures_only",
+    "false_positive_risk": "medium",
+    "reference_scope": "Architecture guidance; does not validate heuristic accuracy"
+  }
+]

@@ -1,0 +1,70 @@
+name: 'AQAF Architecture Review'
+description: 'Run a local, non-certifying heuristic architecture scan; outputs report artifacts.'
+author: 'AQAF contributors'
+inputs:
+  output:
+    description: 'Report output path relative to workspace'
+    required: false
+    default: 'aqaf-report.json'
+  profile:
+    description: 'Explicit AQAF profile or auto'
+    required: false
+    default: 'auto'
+  pack:
+    description: 'Optional AQAF pack ID or auto'
+    required: false
+    default: 'auto'
+  baseline:
+    description: 'Optional path to baseline JSON; relative to workspace'
+    required: false
+    default: ''
+  fail-on:
+    description: 'off, new-high, or new-medium; requires baseline'
+    required: false
+    default: 'off'
+  gitignore:
+    description: 'Respect root and nested .gitignore patterns; true by default'
+    required: false
+    default: 'true'
+  review-signals:
+    description: 'Experimental unscored multi-language source observations'
+    required: false
+    default: 'false'
+outputs:
+  report:
+    description: 'Path of generated JSON report'
+    value: ${{ steps.scan.outputs.report }}
+runs:
+  using: 'composite'
+  steps:
+    - id: scan
+      shell: bash
+      env:
+        AQAF_OUTPUT: ${{ inputs.output }}
+        AQAF_PROFILE: ${{ inputs.profile }}
+        AQAF_PACK: ${{ inputs.pack }}
+        AQAF_BASELINE: ${{ inputs.baseline }}
+        AQAF_FAIL_ON: ${{ inputs.fail-on }}
+        AQAF_GITIGNORE: ${{ inputs.gitignore }}
+        AQAF_REVIEW_SIGNALS: ${{ inputs.review-signals }}
+      run: |
+        set -euo pipefail
+        out="$GITHUB_WORKSPACE/$AQAF_OUTPUT"
+        cmd=(python3 "$GITHUB_ACTION_PATH/tools/aqaf.py" "$GITHUB_WORKSPACE" --format json --profile "$AQAF_PROFILE" --pack "$AQAF_PACK" --output "$out")
+        if [[ -n "$AQAF_BASELINE" ]]; then cmd+=(--baseline "$GITHUB_WORKSPACE/$AQAF_BASELINE"); fi
+        if [[ "$AQAF_FAIL_ON" != 'off' ]]; then cmd+=(--fail-on "$AQAF_FAIL_ON"); fi
+        case "$AQAF_GITIGNORE" in
+          true) cmd+=(--gitignore) ;;
+          false) cmd+=(--no-gitignore) ;;
+          *) echo 'gitignore must be true or false' >&2; exit 2 ;;
+        esac
+        case "$AQAF_REVIEW_SIGNALS" in
+          true) cmd+=(--review-signals) ;;
+          false) ;;
+          *) echo 'review-signals must be true or false' >&2; exit 2 ;;
+        esac
+        "${cmd[@]}"
+        echo "report=$out" >> "$GITHUB_OUTPUT"
+branding:
+  icon: 'layers'
+  color: 'blue'

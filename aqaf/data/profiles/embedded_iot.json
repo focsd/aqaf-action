@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "embedded_iot",
+  "name": "Embedded / IoT Firmware",
+  "product_type": "systems",
+  "target_architecture": "Hardware abstraction, explicit state machine, bounded resources, deterministic recovery and test harness.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "platformio.ini",
+      "weight": 85
+    },
+    {
+      "kind": "text",
+      "value": "#include <Arduino.h>",
+      "weight": 60
+    }
+  ],
+  "quality_priorities": [
+    "watchdogs",
+    "bounded memory",
+    "hardware safety"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "guidance_only",
+  "notes": ""
+}

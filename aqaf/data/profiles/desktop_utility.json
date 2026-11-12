@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "desktop_utility",
+  "name": "Cross-platform/Desktop Utility",
+  "product_type": "systems",
+  "target_architecture": "UI shell with application services, isolated platform integration and explicit threading/state ownership.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "text",
+      "value": "PySide6",
+      "weight": 32
+    },
+    {
+      "kind": "text",
+      "value": "tkinter",
+      "weight": 30
+    },
+    {
+      "kind": "text",
+      "value": "WPF",
+      "weight": 32
+    }
+  ],
+  "quality_priorities": [
+    "UI responsiveness",
+    "filesystem boundaries",
+    "installer/update"
+  ],
+  "source_ids": [
+    "B01",
+    "B06"
+  ],
+  "status": "experimental",
+  "coverage": "guidance_only",
+  "notes": "Profile-specific detectors are not yet provided."
+}

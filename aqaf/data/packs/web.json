@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "web",
+  "name": "Web & API Pack",
+  "description": "Web applications, API backends, WordPress, browser extensions and npm libraries",
+  "profiles": [
+    "saas_or_web_app",
+    "api_backend",
+    "wordpress_plugin",
+    "browser_extension",
+    "npm_library"
+  ],
+  "status": "mixed_coverage",
+  "pack_license": "MIT",
+  "commercial_note": "Base profiles are MIT-licensed; specialist services and verified benchmarks can be offered separately."
+}

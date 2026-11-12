@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "automation",
+  "name": "Automation & AI Pack",
+  "description": "CLI, Google Apps Script, data pipelines, AI and MCP services",
+  "profiles": [
+    "cli_automation",
+    "google_apps_script",
+    "scraper_data_pipeline",
+    "ai_pipeline",
+    "mcp_agent_server"
+  ],
+  "status": "mixed_coverage",
+  "pack_license": "MIT",
+  "commercial_note": "Base profiles are MIT-licensed; specialist services and verified benchmarks can be offered separately."
+}

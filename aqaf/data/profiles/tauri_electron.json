@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "tauri_electron",
+  "name": "Electron / Tauri Desktop",
+  "product_type": "systems",
+  "target_architecture": "UI layer plus constrained IPC contract and isolated native/network capabilities.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "tauri.conf.json",
+      "weight": 95
+    },
+    {
+      "kind": "text",
+      "value": "electron",
+      "weight": 35
+    }
+  ],
+  "quality_priorities": [
+    "IPC security",
+    "update channel",
+    "process isolation"
+  ],
+  "source_ids": [
+    "B01",
+    "B09"
+  ],
+  "status": "experimental",
+  "coverage": "guidance_only",
+  "notes": ""
+}

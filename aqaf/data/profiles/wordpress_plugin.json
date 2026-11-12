@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "wordpress_plugin",
+  "name": "WordPress Plugin",
+  "product_type": "web",
+  "target_architecture": "Small hooks and actions delegated to testable services, permissions/nonces on protected actions.",
+  "packs": [
+    "web"
+  ],
+  "detection": [
+    {
+      "kind": "text",
+      "value": "add_action(",
+      "weight": 75
+    },
+    {
+      "kind": "text",
+      "value": "register_activation_hook",
+      "weight": 85
+    },
+    {
+      "kind": "path",
+      "value": "wp-content/",
+      "weight": 90
+    }
+  ],
+  "quality_priorities": [
+    "hook delegation",
+    "capabilities/nonces",
+    "upgrade paths"
+  ],
+  "source_ids": [
+    "B09",
+    "B01"
+  ],
+  "status": "heuristic",
+  "coverage": "heuristic",
+  "notes": ""
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "scraper_data_pipeline",
+  "name": "Scraper / Data Pipeline",
+  "product_type": "automation",
+  "target_architecture": "Deterministic extract-transform-load stages, retries, checkpoints, provenance and source adapters.",
+  "packs": [
+    "automation"
+  ],
+  "detection": [
+    {
+      "kind": "text",
+      "value": "BeautifulSoup",
+      "weight": 46
+    },
+    {
+      "kind": "text",
+      "value": "scrapy",
+      "weight": 52
+    },
+    {
+      "kind": "text",
+      "value": "playwright",
+      "weight": 38
+    }
+  ],
+  "quality_priorities": [
+    "data provenance",
+    "retry/idempotency",
+    "rate limits"
+  ],
+  "source_ids": [
+    "B04",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "guidance_only",
+  "notes": "Profile-specific detectors are not yet provided."
+}

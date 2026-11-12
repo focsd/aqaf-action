@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "systems",
+  "name": "Systems & Desktop Pack",
+  "description": "Rust, Windows client/server, desktop shells, IoT, distributed workspaces",
+  "profiles": [
+    "rust_app",
+    "windows_client_server",
+    "desktop_utility",
+    "tauri_electron",
+    "embedded_iot",
+    "multirepo_system"
+  ],
+  "status": "mixed_coverage",
+  "pack_license": "MIT",
+  "commercial_note": "Base profiles are MIT-licensed; specialist services and verified benchmarks can be offered separately."
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "id": "saas_or_web_app",
+  "name": "SaaS / Web Application",
+  "product_type": "web",
+  "target_architecture": "Modular monolith with explicit domain modules, reliable data changes and APIs for external clients.",
+  "packs": [
+    "web"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "next.config.js",
+      "weight": 85
+    },
+    {
+      "kind": "file",
+      "value": "next.config.ts",
+      "weight": 85
+    },
+    {
+      "kind": "file",
+      "value": "manage.py",
+      "weight": 75
+    },
+    {
+      "kind": "file",
+      "value": "package.json",
+      "weight": 25
+    }
+  ],
+  "quality_priorities": [
+    "data ownership",
+    "module boundaries",
+    "deployment"
+  ],
+  "source_ids": [
+    "B01",
+    "B02"
+  ],
+  "status": "heuristic",
+  "coverage": "heuristic",
+  "notes": ""
+}

@@ -1,0 +1,1574 @@
+{
+  "schema_version": 1,
+  "knowledge_version": "1.1.0",
+  "kind": "secondary_source_review_guidance",
+  "score_effect": "none",
+  "books": [
+    {
+      "id": "ousterhout-philosophy-of-software-design",
+      "source_id": "B13",
+      "title": "A Philosophy of Software Design",
+      "notes_path": "docs/books/ousterhout-philosophy-of-software-design.md",
+      "notes_sha256": "278641a440fba3ab9caee16bec57bfcf1bd41480021894bea3c195852f2d3bb4",
+      "primary_url": "https://www.web.stanford.edu/~ouster/cgi-bin/aposd.php",
+      "notes_primary_url": "https://www.web.stanford.edu/~ouster/cgi-bin/aposd.php",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "John Ousterhout",
+      "review_summary": "A useful module hides difficult decisions behind a small contract. Count the knowledge callers need, rather than treating short files or additional layers as quality by themselves.",
+      "review_contribution": "Helps assess whether an interface reduces the knowledge a caller needs.",
+      "website_path": "/books/ousterhout-philosophy-of-software-design/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "6",
+          "title": "General-Purpose Modules are Deeper",
+          "edition": "2nd edition",
+          "source_url": "https://web.stanford.edu/~ouster/cgi-bin/book.php",
+          "verification_basis": "author_edition_notes",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "martin-clean-architecture",
+      "source_id": "B09",
+      "title": "Clean Architecture",
+      "notes_path": "docs/books/martin-clean-architecture.md",
+      "notes_sha256": "abfae61178c5fe0f9c308d740d574c345c91f575e5ca3cf06ab91a32d6191b8b",
+      "primary_url": "https://www.oreilly.com/library/view/clean-architecture-a/9780134494272/",
+      "notes_primary_url": "https://www.pearson.com/en-us/subject-catalog/p/clean-architecture-a-craftsmans-guide-to-software-structure-and-design/P200000009528/9780134494166",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Robert C. Martin",
+      "review_summary": "Stable policy should be protected from frequently changing delivery mechanisms. Review dependency direction and replacement costs before adding another abstraction.",
+      "review_contribution": "Provides dependency-direction and boundary design context.",
+      "website_path": "/books/martin-clean-architecture/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "11",
+          "title": "DIP: The Dependency Inversion Principle",
+          "edition": "1st edition",
+          "source_url": "https://www.oreilly.com/library/view/clean-architecture-a/9780134494272/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "17",
+          "title": "Boundaries: Drawing Lines",
+          "edition": "1st edition",
+          "source_url": "https://www.oreilly.com/library/view/clean-architecture-a/9780134494272/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "fowler-patterns-of-enterprise-application-architecture",
+      "source_id": "B14",
+      "title": "Patterns of Enterprise Application Architecture",
+      "notes_path": "docs/books/fowler-patterns-of-enterprise-application-architecture.md",
+      "notes_sha256": "7afcccc1767ffb88f64e8d1dc0dcd16ae6236bd7d8b7321522373bba6f755ffb",
+      "primary_url": "https://martinfowler.com/books/eaa.html",
+      "notes_primary_url": "https://www.martinfowler.com/books/eaa.html",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Martin Fowler",
+      "review_summary": "Enterprise patterns offer choices for organizing business rules and distribution. Select the pattern whose operational and testing costs fit the actual product.",
+      "review_contribution": "Provides alternatives for domain logic and distribution rather than a mandatory enterprise template.",
+      "website_path": "/books/fowler-patterns-of-enterprise-application-architecture/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "2",
+          "title": "Organizing Domain Logic",
+          "edition": "1st edition",
+          "source_url": "https://martinfowler.com/books/eaa.html",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "7",
+          "title": "Distribution Strategies",
+          "edition": "1st edition",
+          "source_url": "https://martinfowler.com/books/eaa.html",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "fowler-refactoring",
+      "source_id": "B16",
+      "title": "Refactoring, 2nd edition",
+      "notes_path": "docs/books/fowler-refactoring.md",
+      "notes_sha256": "46165fc65ad7ef3e0ad210790f82fcd1e1d1e66e72fa18bbccd5e7e6997fc9a5",
+      "primary_url": "https://refactoring.com/catalog/",
+      "notes_primary_url": "https://refactoring.com/catalog/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "Martin Fowler",
+      "review_summary": "Make structural changes in small steps while observing behavior. Tests should protect the contract being preserved before new behavior is introduced.",
+      "review_contribution": "Connects small structural changes with behavior-preserving tests.",
+      "website_path": "/books/fowler-refactoring/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "2",
+          "title": "Principles in Refactoring",
+          "edition": "2nd edition",
+          "source_url": "https://refactoring.com/catalog/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "Building Tests",
+          "edition": "2nd edition",
+          "source_url": "https://refactoring.com/catalog/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "nygard-release-it",
+      "source_id": "B12",
+      "title": "Release It!, 2nd edition",
+      "notes_path": "docs/books/nygard-release-it.md",
+      "notes_sha256": "0bbea4a85816090bffaabdb6c2f56db002ffb38899a03f5c9cbb90a8dfa0f384",
+      "primary_url": "https://www.pragmatic.org/titles/mnee2/release-it-second-edition/",
+      "notes_primary_url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "Michael T. Nygard",
+      "review_summary": "A dependency failure can exhaust resources far beyond the original fault. Review time budgets, bounded work and recovery paths with realistic failure scenarios.",
+      "review_contribution": "Frames cascading-failure questions and operational failure scenarios.",
+      "website_path": "/books/nygard-release-it/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "Stability Antipatterns",
+          "edition": "2nd edition",
+          "source_url": "https://www.pragmatic.org/titles/mnee2/release-it-second-edition/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "kleppmann-designing-data-intensive-applications",
+      "source_id": "B04",
+      "title": "Designing Data-Intensive Applications",
+      "notes_path": "docs/books/kleppmann-designing-data-intensive-applications.md",
+      "notes_sha256": "a1aeda2366f207e8cb698c662668e3448ec55e63c6218e9c90e410d4a3f79248",
+      "primary_url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/",
+      "notes_primary_url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/ch04.html",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition (2017)",
+      "authors": "Martin Kleppmann",
+      "review_summary": "Reliability, growth and maintainability involve different constraints. For a distributed operation, describe what callers can know after a timeout before choosing retry behavior.",
+      "review_contribution": "Adds data-system trade-off context; source inspection cannot establish runtime consistency guarantees.",
+      "website_path": "/books/kleppmann-designing-data-intensive-applications/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "1",
+          "title": "Reliable, Scalable, and Maintainable Applications",
+          "edition": "1st edition (2017)",
+          "source_url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "howard-leblanc-writing-secure-code",
+      "source_id": "B17",
+      "title": "Writing Secure Code, 2nd edition",
+      "notes_path": "docs/books/howard-leblanc-writing-secure-code.md",
+      "notes_sha256": "79929f53b479cd5c12ed2e4f59129463e9e2d9f8bde9207191b9a95d04ff27d9",
+      "primary_url": "https://www.informit.com/store/writing-secure-code-9780735617223",
+      "notes_primary_url": "https://www.informit.com/store/writing-secure-code-9780735617223",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "Michael Howard and David LeBlanc",
+      "review_summary": "Identify hostile inputs and the authority required for each action. Privilege reduction and explicit validation should be assessed at the receiving boundary.",
+      "review_contribution": "Provides secure construction and least-privilege context; historical platform examples need current API guidance.",
+      "website_path": "/books/howard-leblanc-writing-secure-code/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "Threat Modeling",
+          "edition": "2nd edition",
+          "source_url": "https://www.oreilly.com/library/view/writing-secure-code/0735617228/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "7",
+          "title": "Running with Least Privilege",
+          "edition": "2nd edition",
+          "source_url": "https://www.oreilly.com/library/view/writing-secure-code/0735617228/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "shostack-threat-modeling",
+      "source_id": "B18",
+      "title": "Threat Modeling: Designing for Security",
+      "notes_path": "docs/books/shostack-threat-modeling.md",
+      "notes_sha256": "38e735a9421690b18f4356cdff61f9a36b954fc934f292c339bddd7aeaec7485",
+      "primary_url": "https://github.com/adamshostack/4QuestionFrame",
+      "notes_primary_url": "https://github.com/adamshostack/4QuestionFrame",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition (2014)",
+      "authors": "Adam Shostack",
+      "review_summary": "Model assets, boundaries and possible misuse before selecting defenses. A threat list becomes useful when each material threat has a mitigation and a way to check it.",
+      "review_contribution": "Provides STRIDE and threat-to-validation structure; an AQAF question is not a completed threat model.",
+      "website_path": "/books/shostack-threat-modeling/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "3",
+          "title": "STRIDE",
+          "edition": "1st edition (2014)",
+          "source_url": "https://bcs.wiley.com/he-bcs/Books?action=contents&bcsId=9137&itemId=1118809998",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "10",
+          "title": "Validating That Threats Are Addressed",
+          "edition": "1st edition (2014)",
+          "source_url": "https://bcs.wiley.com/he-bcs/Books?action=contents&bcsId=9137&itemId=1118809998",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "meszaros-xunit-test-patterns",
+      "source_id": "B19",
+      "title": "xUnit Test Patterns",
+      "notes_path": "docs/books/meszaros-xunit-test-patterns.md",
+      "notes_sha256": "688bbfb7113f9de932ac78d705cf59517d36400ef5c5a600a30373f900a9069b",
+      "primary_url": "https://www.informit.com/store/xunit-test-patterns-refactoring-test-code-9780321504807",
+      "notes_primary_url": "https://www.informit.com/store/xunit-test-patterns-refactoring-test-code-9780321504807",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Gerard Meszaros",
+      "review_summary": "Tests need a dependable way to determine the result. Test doubles help isolate a concern, but their expectations must correspond to a meaningful contract.",
+      "review_contribution": "Distinguishes result verification and test-double use from implementation-coupled assertions.",
+      "website_path": "/books/meszaros-xunit-test-patterns/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "10",
+          "title": "Result Verification",
+          "edition": "1st edition",
+          "source_url": "https://www.informit.com/store/xunit-test-patterns-refactoring-test-code-9780321504807",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "11",
+          "title": "Using Test Doubles",
+          "edition": "1st edition",
+          "source_url": "https://www.informit.com/store/xunit-test-patterns-refactoring-test-code-9780321504807",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "freeman-pryce-growing-object-oriented-software",
+      "source_id": "B20",
+      "title": "Growing Object-Oriented Software, Guided by Tests",
+      "notes_path": "docs/books/freeman-pryce-growing-object-oriented-software.md",
+      "notes_sha256": "2d28cb2937e00ff58a048f4c876a1667d9249f0c4c0961637f4478aee0112e90",
+      "primary_url": "https://www.pearson.com/en-us/subject-catalog/p/growing-object-oriented-software-guided-by-tests/P200000009298/",
+      "notes_primary_url": "https://www.pearson.com/en-us/subject-catalog/p/growing-object-oriented-software-guided-by-tests/P200000009298/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Steve Freeman and Nat Pryce",
+      "review_summary": "Start with a thin end-to-end path, then grow behavior with feedback. Isolated tests and collaboration tests answer different questions about a working system.",
+      "review_contribution": "Connects collaboration tests with an executable end-to-end delivery path.",
+      "website_path": "/books/freeman-pryce-growing-object-oriented-software/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "10",
+          "title": "The Walking Skeleton",
+          "edition": "1st edition",
+          "source_url": "https://www.pearson.com/en-us/subject-catalog/p/growing-object-oriented-software-guided-by-tests/P200000009298/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "19",
+          "title": "Handling Failure",
+          "edition": "1st edition",
+          "source_url": "https://www.pearson.com/en-us/subject-catalog/p/growing-object-oriented-software-guided-by-tests/P200000009298/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "khorikov-unit-testing",
+      "source_id": "B21",
+      "title": "Unit Testing Principles, Practices, and Patterns",
+      "notes_path": "docs/books/khorikov-unit-testing.md",
+      "notes_sha256": "d4c2c5c431c30bd5ea6fee60d2ca78caebcf540b6f310a56cdaf587d8b374278",
+      "primary_url": "https://www.simonandschuster.ca/books/Unit-Testing-Principles-Practices-and-Patterns/Vladimir-Khorikov/9781617296277",
+      "notes_primary_url": "https://www.simonandschuster.ca/books/Unit-Testing-Principles-Practices-and-Patterns/Vladimir-Khorikov/9781617296277",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Vladimir Khorikov",
+      "review_summary": "A useful test catches important regressions while staying affordable to run and maintain. Evaluate brittleness as well as coverage when deciding what to keep.",
+      "review_contribution": "Supplies a test-value framework covering regression protection, refactoring resistance, feedback speed and maintenance.",
+      "website_path": "/books/khorikov-unit-testing/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "The four pillars of a good unit test",
+          "edition": "1st edition",
+          "source_url": "https://livebook.manning.com/book/unit-testing/chapter-4/v-3",
+          "verification_basis": "publisher_chapter",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "feathers-working-effectively-with-legacy-code",
+      "source_id": "B06",
+      "title": "Working Effectively with Legacy Code",
+      "notes_path": "docs/books/feathers-working-effectively-with-legacy-code.md",
+      "notes_sha256": "31729260a24d15aa022f299330f78b48620f8c85caa5c65c4318ce95b8e164c0",
+      "primary_url": "https://www.oreilly.com/library/view/working-effectively-with/0131177052/",
+      "notes_primary_url": "https://www.oreilly.com/library/view/working-effectively-with/0131177052/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Michael C. Feathers",
+      "review_summary": "A seam gives a reviewer a place to observe or replace behavior without a broad rewrite. First characterize uncertain behavior; then change structure deliberately.",
+      "review_contribution": "Helps find observation seams in code whose behavior is poorly understood.",
+      "website_path": "/books/feathers-working-effectively-with-legacy-code/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "The Seam Model",
+          "edition": "1st edition",
+          "source_url": "https://www.oreilly.com/library/view/working-effectively-with/0131177052/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "25",
+          "title": "Dependency-Breaking Techniques",
+          "edition": "1st edition",
+          "source_url": "https://www.oreilly.com/library/view/working-effectively-with/0131177052/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "beck-test-driven-development",
+      "source_id": "B22",
+      "title": "Test-Driven Development: By Example",
+      "notes_path": "docs/books/beck-test-driven-development.md",
+      "notes_sha256": "d9dbcaa5e0abe9053eb4413cff7880f55868b7d23fc00e2770111ac71913304a",
+      "primary_url": "https://oreilly.com/library/view/test-driven-development/0321146530",
+      "notes_primary_url": "https://oreilly.com/library/view/test-driven-development/0321146530",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Kent Beck",
+      "review_summary": "Short feedback cycles keep a change understandable. Use an observable failing example and a small implementation step, then improve the structure with feedback.",
+      "review_contribution": "Supplies test-driven iteration context; characterization of existing behavior is a separate decision.",
+      "website_path": "/books/beck-test-driven-development/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "17",
+          "title": "Money Retrospective",
+          "edition": "1st edition",
+          "source_url": "https://oreilly.com/library/view/test-driven-development/0321146530",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "22",
+          "title": "Dealing with Failure",
+          "edition": "1st edition",
+          "source_url": "https://oreilly.com/library/view/test-driven-development/0321146530",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "crispin-gregory-agile-testing",
+      "source_id": "B23",
+      "title": "Agile Testing",
+      "notes_path": "docs/books/crispin-gregory-agile-testing.md",
+      "notes_sha256": "09a6c96897efac81a896f4cdf18319ae331037a794586b2cfb0d35625e6049da",
+      "primary_url": "https://www.informit.com/store/agile-testing-a-practical-guide-for-testers-and-agile-9780321606778",
+      "notes_primary_url": "https://www.informit.com/store/agile-testing-a-practical-guide-for-testers-and-agile-9780321606778",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition (2009)",
+      "authors": "Lisa Crispin and Janet Gregory",
+      "review_summary": "Testing serves both development and product evaluation. Balance checks of implementation behavior with exploration of user outcomes and operational qualities.",
+      "review_contribution": "Uses the testing quadrants to broaden the evidence requested beyond unit-test counts.",
+      "website_path": "/books/crispin-gregory-agile-testing/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "6",
+          "title": "The Purpose of Testing",
+          "edition": "1st edition (2009)",
+          "source_url": "https://www.informit.com/store/agile-testing-a-practical-guide-for-testers-and-agile-9780321534460",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "12",
+          "title": "Summary of Testing Quadrants",
+          "edition": "1st edition (2009)",
+          "source_url": "https://www.informit.com/store/agile-testing-a-practical-guide-for-testers-and-agile-9780321534460",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "forshaw-windows-security-internals",
+      "source_id": "B24",
+      "title": "Windows Security Internals",
+      "notes_path": "docs/books/forshaw-windows-security-internals.md",
+      "notes_sha256": "2483589c5afaee7ed6d4ab79ccf93739d6a9d78079e79f803a0374b4033309cb",
+      "primary_url": "https://nostarch.com/windows-security-internals",
+      "notes_primary_url": "https://nostarch.com/windows-security-internals",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "James Forshaw",
+      "review_summary": "Windows access decisions depend on identities, tokens and object permissions. Review what the receiver checks instead of assuming a trusted caller makes an operation safe.",
+      "review_contribution": "Provides Windows authorization mechanics for a boundary review.",
+      "website_path": "/books/forshaw-windows-security-internals/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "5",
+          "title": "Security Descriptors",
+          "edition": "1st edition",
+          "source_url": "https://nostarch.com/windows-security-internals",
+          "verification_basis": "publisher_excerpt",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "ristic-bulletproof-tls-and-pki",
+      "source_id": "B25",
+      "title": "Bulletproof TLS and PKI, 2nd edition",
+      "notes_path": "docs/books/ristic-bulletproof-tls-and-pki.md",
+      "notes_sha256": "c7be3b1c4a5ebf98758754b9f8c35efd0f61cb743e5be95b0b1f9e649ea1c814",
+      "primary_url": "https://www.feistyduck.com/books/bulletproof-tls-and-pki/",
+      "notes_primary_url": "https://www.feistyduck.com/books/bulletproof-tls-and-pki/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "Ivan Ristić",
+      "review_summary": "Encrypted transport still needs a policy for authenticating the peer. Certificate validation, trust configuration and application authorization require separate evidence.",
+      "review_contribution": "Provides transport and PKI context; deployment configuration must be checked against current platform guidance.",
+      "website_path": "/books/ristic-bulletproof-tls-and-pki/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "2",
+          "title": "TLS 1.3",
+          "edition": "2nd edition",
+          "source_url": "https://www.feistyduck.com/books/bulletproof-tls-and-pki/",
+          "verification_basis": "author_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "Public Key Infrastructure",
+          "edition": "2nd edition",
+          "source_url": "https://www.feistyduck.com/books/bulletproof-tls-and-pki/",
+          "verification_basis": "author_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "aumasson-serious-cryptography",
+      "source_id": "B26",
+      "title": "Serious Cryptography, 2nd edition",
+      "notes_path": "docs/books/aumasson-serious-cryptography.md",
+      "notes_sha256": "ea363ce46548d3f0676480719e68fbc171be314ff072e3b557b1f443d9142223",
+      "primary_url": "https://nostarch.com/seriouscrypto",
+      "notes_primary_url": "https://nostarch.com/seriouscrypto",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "Jean-Philippe Aumasson",
+      "review_summary": "A cryptographic primitive solves a specific problem under assumptions. Review key ownership, randomness and authenticated context instead of treating encryption as an authorization decision.",
+      "review_contribution": "Separates cryptographic guarantees from identity and authority; no recommendation to invent cryptographic protocols.",
+      "website_path": "/books/aumasson-serious-cryptography/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "2",
+          "title": "Randomness",
+          "edition": "2nd edition",
+          "source_url": "https://nostarch.com/serious-cryptography-2nd-edition",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "8",
+          "title": "Authenticated Encryption",
+          "edition": "2nd edition",
+          "source_url": "https://nostarch.com/serious-cryptography-2nd-edition",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "anderson-security-engineering",
+      "source_id": "B27",
+      "title": "Security Engineering, 3rd edition",
+      "notes_path": "docs/books/anderson-security-engineering.md",
+      "notes_sha256": "70f391ec662796e968111aa045e3f327f14133d89cdac75ed944f7da2c4fec71",
+      "primary_url": "https://www.cl.cam.ac.uk/~rja14/book.html",
+      "notes_primary_url": "https://www.cl.cam.ac.uk/~rja14/book.html",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "3rd edition",
+      "authors": "Ross Anderson",
+      "review_summary": "Security depends on how mechanisms, incentives and operating practices interact. Check authority and development assurance in the actual system context.",
+      "review_contribution": "Adds system-wide access-control and assurance context beyond individual cryptographic mechanisms.",
+      "website_path": "/books/anderson-security-engineering/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "6",
+          "title": "Access Control",
+          "edition": "3rd edition",
+          "source_url": "https://www.cl.cam.ac.uk/archive/rja14/book.html",
+          "verification_basis": "author_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "27",
+          "title": "Secure Systems Development",
+          "edition": "3rd edition",
+          "source_url": "https://www.cl.cam.ac.uk/archive/rja14/book.html",
+          "verification_basis": "author_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "humble-farley-continuous-delivery",
+      "source_id": "B28",
+      "title": "Continuous Delivery",
+      "notes_path": "docs/books/humble-farley-continuous-delivery.md",
+      "notes_sha256": "1586abcc08916a70838c4901989a837c9a2ff435f1404588ab710d57b67ad316",
+      "primary_url": "https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery-reliable-software-releases-through-build-test-and-deployment-automation/P200000009113/9780321601919",
+      "notes_primary_url": "https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery-reliable-software-releases-through-build-test-and-deployment-automation/P200000009113/9780321601919",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Jez Humble and David Farley",
+      "review_summary": "A release should identify what was tested and what is being promoted. Recovery planning must cover data and compatibility as well as replacing an executable.",
+      "review_contribution": "Provides delivery-pipeline and release-rehearsal context.",
+      "website_path": "/books/humble-farley-continuous-delivery/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "5",
+          "title": "Anatomy of the Deployment Pipeline",
+          "edition": "1st edition",
+          "source_url": "https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery-reliable-software-releases-through-build-test-and-deployment-automation/P200000009113/9780321601919",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "10",
+          "title": "Deploying and Releasing Applications",
+          "edition": "1st edition",
+          "source_url": "https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery-reliable-software-releases-through-build-test-and-deployment-automation/P200000009113/9780321601919",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "cleary-concurrency-in-csharp-cookbook",
+      "source_id": "B29",
+      "title": "Concurrency in C# Cookbook, 2nd edition",
+      "notes_path": "docs/books/cleary-concurrency-in-csharp-cookbook.md",
+      "notes_sha256": "c3b84b23693ce8f34ac479c5803ece3c79140860ec5910e20492ab48c21c3c0d",
+      "primary_url": "https://stephencleary.com/book/",
+      "notes_primary_url": "https://stephencleary.com/book/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "Stephen Cleary",
+      "review_summary": "Asynchronous work needs a lifetime, a cancellation path and an observable completion result. A returned task should represent the work the caller is responsible for.",
+      "review_contribution": "Provides asynchronous ownership and testing context; unnumbered publisher headings are retained without guessed chapter numbers.",
+      "website_path": "/books/cleary-concurrency-in-csharp-cookbook/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": null,
+          "title": "Async Basics",
+          "edition": "2nd edition",
+          "source_url": "https://stephencleary.com/book/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": null,
+          "title": "Testing",
+          "edition": "2nd edition",
+          "source_url": "https://stephencleary.com/book/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "hohpe-woolf-enterprise-integration-patterns",
+      "source_id": "B30",
+      "title": "Enterprise Integration Patterns",
+      "notes_path": "docs/books/hohpe-woolf-enterprise-integration-patterns.md",
+      "notes_sha256": "8ecfc86a6c9bc9869fa31a64987054df9148bd4dda5a5300a025161e80b0f233",
+      "primary_url": "https://www.enterpriseintegrationpatterns.com/toc.html",
+      "notes_primary_url": "https://www.enterpriseintegrationpatterns.com/toc.html",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Gregor Hohpe and Bobby Woolf",
+      "review_summary": "Messages need deliberate delivery and failure handling. Define invalid-message behavior and recovery ownership rather than assuming a queue guarantees a business outcome.",
+      "review_contribution": "Provides messaging patterns; cited pattern names are not represented as numbered chapters.",
+      "website_path": "/books/hohpe-woolf-enterprise-integration-patterns/",
+      "reading_references": [
+        {
+          "kind": "pattern",
+          "number": null,
+          "title": "Message Channel",
+          "edition": "1st edition",
+          "source_url": "https://www.enterpriseintegrationpatterns.com/patterns/messaging/toc.html",
+          "verification_basis": "author_pattern_catalogue",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "pattern",
+          "number": null,
+          "title": "Dead Letter Channel",
+          "edition": "1st edition",
+          "source_url": "https://www.enterpriseintegrationpatterns.com/patterns/messaging/toc.html",
+          "verification_basis": "author_pattern_catalogue",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "evans-domain-driven-design",
+      "source_id": "B05",
+      "title": "Domain-Driven Design",
+      "notes_path": "docs/books/evans-domain-driven-design.md",
+      "notes_sha256": "8ccd89655b55a7b130a78791c155fef7eeecf0120317440c921116b8c7ef21e7",
+      "primary_url": "https://www.pearson.de/domain-driven-design-tackling-complexity-in-the-heart-of-software-9780321125217",
+      "notes_primary_url": "https://www.pearson.com/en-gb/subject-catalog/p/domain-driven-design-tackling-complexity-in-the-heart-of-software/P200000009375",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Eric Evans",
+      "review_summary": "A domain model should make business concepts understandable and consistent within a boundary. Different parts of a system may legitimately use different models.",
+      "review_contribution": "Provides model-boundary context when domain complexity justifies it.",
+      "website_path": "/books/evans-domain-driven-design/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "Isolating the Domain",
+          "edition": "1st edition",
+          "source_url": "https://www.pearson.de/domain-driven-design-tackling-complexity-in-the-heart-of-software-9780321125217",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "14",
+          "title": "Maintaining Model Integrity",
+          "edition": "1st edition",
+          "source_url": "https://www.pearson.de/domain-driven-design-tackling-complexity-in-the-heart-of-software-9780321125217",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "beyer-site-reliability-engineering",
+      "source_id": "B31",
+      "title": "Site Reliability Engineering",
+      "notes_path": "docs/books/beyer-site-reliability-engineering.md",
+      "notes_sha256": "c7f35197008bf0904a7399326c0e945880a52c180940db7da1aa85a3e9d079b1",
+      "primary_url": "https://sre.google/books/",
+      "notes_primary_url": "https://sre.google/books/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "1st edition",
+      "authors": "Betsy Beyer, Chris Jones, Jennifer Petoff and Niall Richard Murphy (editors)",
+      "review_summary": "Operational evidence should describe what a user experiences. Define a useful service objective and connect alerts to a response that someone can perform.",
+      "review_contribution": "Provides service objectives and monitoring context; source code alone cannot demonstrate operational reliability.",
+      "website_path": "/books/beyer-site-reliability-engineering/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "Service Level Objectives",
+          "edition": "1st edition",
+          "source_url": "https://sre.google/sre-book/table-of-contents/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "6",
+          "title": "Monitoring Distributed Systems",
+          "edition": "1st edition",
+          "source_url": "https://sre.google/sre-book/table-of-contents/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "norman-design-of-everyday-things",
+      "source_id": "B32",
+      "title": "The Design of Everyday Things, revised and expanded",
+      "notes_path": "docs/books/norman-design-of-everyday-things.md",
+      "notes_sha256": "35169ee7f94398a62816348cf26e0d9edc9d215d6f1f98566dfaebbe782bb042",
+      "primary_url": "https://jnd.org/the-design-of-everyday-things-revised-and-expanded/",
+      "notes_primary_url": "https://jnd.org/the-design-of-everyday-things-revised-and-expanded/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "Revised and expanded edition (2013)",
+      "authors": "Don Norman",
+      "review_summary": "People need to understand the effect of an action and interpret the result. Risky operations should support clear targeting, feedback and a practical recovery path.",
+      "review_contribution": "Provides action, feedback and error-recovery context; usability requires observation with representative users.",
+      "website_path": "/books/norman-design-of-everyday-things/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "2",
+          "title": "The Psychology of Everyday Actions",
+          "edition": "Revised and expanded edition (2013)",
+          "source_url": "https://jnd.org/books/the-design-of-everyday-things-revised-and-expanded-edition/",
+          "verification_basis": "author_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "5",
+          "title": "Human Error? No, Bad Design",
+          "edition": "Revised and expanded edition (2013)",
+          "source_url": "https://jnd.org/books/the-design-of-everyday-things-revised-and-expanded-edition/",
+          "verification_basis": "author_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "yosifovich-windows-internals",
+      "source_id": "B33",
+      "title": "Windows Internals, Part 1 and Part 2, 7th edition",
+      "notes_path": "docs/books/yosifovich-windows-internals.md",
+      "notes_sha256": "60e09efbad083c5c598e1db4c0c73c59c5ba9c2b3881c3b48b3b257564405df3",
+      "primary_url": "https://learn.microsoft.com/en-us/sysinternals/resources/windows-internals",
+      "notes_primary_url": "https://learn.microsoft.com/en-us/sysinternals/resources/windows-internals",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "7th edition, Part 1",
+      "authors": "Pavel Yosifovich, Alex Ionescu, Mark Russinovich and David Solomon",
+      "review_summary": "Process isolation and Windows security are separate from an application’s product policy. Review the actual process boundary and the authority transferred across it.",
+      "review_contribution": "References Part 1 only; the original notes also discuss Part 2, whose chapter numbering is not reused here.",
+      "website_path": "/books/yosifovich-windows-internals/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "3",
+          "title": "Processes and Jobs",
+          "edition": "7th edition, Part 1",
+          "source_url": "https://learn.microsoft.com/en-us/sysinternals/resources/windows-internals",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "7",
+          "title": "Security",
+          "edition": "7th edition, Part 1",
+          "source_url": "https://learn.microsoft.com/en-us/sysinternals/resources/windows-internals",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "ford-building-evolutionary-architectures",
+      "source_id": "B03",
+      "title": "Building Evolutionary Architectures, 2nd edition",
+      "notes_path": "docs/books/ford-building-evolutionary-architectures.md",
+      "notes_sha256": "49022ef4b1d793fd7d7b8a47bb8a4b1cbe5496e7232636a47bee12c9b21d02ea",
+      "primary_url": "https://www.oreilly.com/library/view/building-evolutionary-architectures/9781492097532/",
+      "notes_primary_url": "https://nealford.com/books/bea2e.html",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "Neal Ford, Rebecca Parsons, Patrick Kua, Pramod Sadalage",
+      "review_summary": "Fitness functions turn selected architectural qualities into repeatable checks. AQAF applies this idea by asking for a constraint, an observable result and an owner.",
+      "review_contribution": "Direct methodological source for fitness functions; a static finding alone does not establish architectural conformance.",
+      "website_path": "/books/ford-building-evolutionary-architectures/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "2",
+          "title": "Fitness Functions",
+          "edition": "2nd edition",
+          "source_url": "https://www.oreilly.com/library/view/building-evolutionary-architectures/9781492097532/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "4",
+          "title": "Automating Architectural Governance",
+          "edition": "2nd edition",
+          "source_url": "https://www.oreilly.com/library/view/building-evolutionary-architectures/9781492097532/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "richards-ford-fundamentals-of-software-architecture",
+      "source_id": "B02",
+      "title": "Fundamentals of Software Architecture, 2nd edition",
+      "notes_path": "docs/books/richards-ford-fundamentals-of-software-architecture.md",
+      "notes_sha256": "83185fccea99e1ade9f01b97b26d99042ea460bab08022eecec6f550f4777689",
+      "primary_url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/",
+      "notes_primary_url": "https://oreilly.com/library/view/fundamentals-of-software/9781098175504",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition (2025)",
+      "authors": "Mark Richards and Neal Ford",
+      "review_summary": "Choose architecture from concrete product qualities and their costs. A decision record should make accepted trade-offs visible and revisitable.",
+      "review_contribution": "Selected references use the second edition; legacy source registry B02 refers to the first edition and remains unchanged.",
+      "website_path": "/books/richards-ford-fundamentals-of-software-architecture/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "5",
+          "title": "Identifying Architectural Characteristics",
+          "edition": "2nd edition (2025)",
+          "source_url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781098175504/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "6",
+          "title": "Measuring and Governing Architecture Characteristics",
+          "edition": "2nd edition (2025)",
+          "source_url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781098175504/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "skeet-csharp-in-depth",
+      "source_id": "B34",
+      "title": "C# in Depth, 4th edition",
+      "notes_path": "docs/books/skeet-csharp-in-depth.md",
+      "notes_sha256": "59632cf797d6dadca2542acc300519608ea7115b050ee62e6af015f33c451dda",
+      "primary_url": "https://csharpindepth.com/contents",
+      "notes_primary_url": "https://csharpindepth.com/contents",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "4th edition",
+      "authors": "Jon Skeet",
+      "review_summary": "Understanding async language semantics helps distinguish a task being created from work being awaited and observed. Check exceptions and lifetime across the entire call chain.",
+      "review_contribution": "Explains C# async semantics supporting the ownership review; it does not prove absence of races.",
+      "website_path": "/books/skeet-csharp-in-depth/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "5",
+          "title": "Writing asynchronous code",
+          "edition": "4th edition",
+          "source_url": "https://csharpindepth.com/contents",
+          "verification_basis": "author_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "6",
+          "title": "Async implementation",
+          "edition": "4th edition",
+          "source_url": "https://csharpindepth.com/contents",
+          "verification_basis": "author_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "mcconnell-code-complete",
+      "source_id": "B35",
+      "title": "Code Complete, 2nd edition",
+      "notes_path": "docs/books/mcconnell-code-complete.md",
+      "notes_sha256": "78ce40388ba669e36f14213af95c0d2d47eb5996d19086ebafc38dd410d70b24",
+      "primary_url": "https://blogs.msdn.microsoft.com/microsoft_press/2011/09/12/best-practices-code-complete-second-edition/",
+      "notes_primary_url": "https://blogs.msdn.microsoft.com/microsoft_press/2011/09/12/best-practices-code-complete-second-edition/",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition",
+      "authors": "Steve McConnell",
+      "review_summary": "Construction quality includes explicit design decisions and deliberate handling of invalid states. AQAF uses this perspective to ask how a chosen constraint is enforced in actual code.",
+      "review_contribution": "Supporting construction-quality context for the evolution review; this book is not attributed as the origin of architectural fitness functions.",
+      "website_path": "/books/mcconnell-code-complete/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": "5",
+          "title": "Design in Construction",
+          "edition": "2nd edition",
+          "source_url": "https://www.microsoftpressstore.com/articles/article.aspx?p=2222451",
+          "verification_basis": "publisher_excerpt",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "chapter",
+          "number": "8",
+          "title": "Defensive Programming",
+          "edition": "2nd edition",
+          "source_url": "https://www.microsoftpressstore.com/articles/article.aspx?p=2222451",
+          "verification_basis": "publisher_excerpt",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "hunt-thomas-pragmatic-programmer",
+      "source_id": "B36",
+      "title": "The Pragmatic Programmer, 20th anniversary edition",
+      "notes_path": "docs/books/hunt-thomas-pragmatic-programmer.md",
+      "notes_sha256": "5ef40c71c2a9dcf332cc8929b50615b64829459f7d03dbd22e199b6cc578ca9a",
+      "primary_url": "https://www.pearson.com/en-gb/subject-catalog/p/pragmatic-programmer-the-your-journey-to-mastery-20th-anniversary-edition/P200000000337/9780135956915",
+      "notes_primary_url": "https://www.pearson.com/en-gb/subject-catalog/p/pragmatic-programmer-the-your-journey-to-mastery-20th-anniversary-edition/P200000000337/9780135956915",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "20th anniversary edition, 2nd edition",
+      "authors": "David Thomas and Andrew Hunt",
+      "review_summary": "Preserve options where uncertainty is high and state assumptions at interfaces. Decisions become easier to revisit when their consequences and contracts are explicit.",
+      "review_contribution": "Provides reversibility and contract topics; topic numbers below are not chapter numbers.",
+      "website_path": "/books/hunt-thomas-pragmatic-programmer/",
+      "reading_references": [
+        {
+          "kind": "topic",
+          "number": "11",
+          "title": "Reversibility",
+          "edition": "20th anniversary edition, 2nd edition",
+          "source_url": "https://www.pearson.com/en-gb/subject-catalog/p/pragmatic-programmer-the-your-journey-to-mastery-20th-anniversary-edition/P200000000337/9780135956915",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        },
+        {
+          "kind": "topic",
+          "number": "23",
+          "title": "Design by Contract",
+          "edition": "20th anniversary edition, 2nd edition",
+          "source_url": "https://www.pearson.com/en-gb/subject-catalog/p/pragmatic-programmer-the-your-journey-to-mastery-20th-anniversary-edition/P200000000337/9780135956915",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    },
+    {
+      "id": "tornhill-your-code-as-a-crime-scene",
+      "source_id": "B37",
+      "title": "Your Code as a Crime Scene, 2nd edition",
+      "notes_path": "docs/books/tornhill-your-code-as-a-crime-scene.md",
+      "notes_sha256": "3b4a6f5af772f4b43cb50a327b9800af655f9529356e71175676ed3cd7af5e6b",
+      "primary_url": "https://adamtornhill.com",
+      "notes_primary_url": "https://adamtornhill.com",
+      "full_book_reviewed": false,
+      "verification_basis": "Secondary application notes; selected reading references independently verified against the primary sources listed below. Full book not reviewed.",
+      "edition": "2nd edition (2024)",
+      "authors": "Adam Tornhill",
+      "review_summary": "Change history can help choose where to investigate. Frequent change is a signal to combine with complexity and product context, rather than a defect verdict.",
+      "review_contribution": "Provides history-informed investigation context; file modification times are not commit frequency and no history is mined by this agenda.",
+      "website_path": "/books/tornhill-your-code-as-a-crime-scene/",
+      "reading_references": [
+        {
+          "kind": "chapter",
+          "number": null,
+          "title": "Discover Hotspots: Create an Offender Profile of Code",
+          "edition": "2nd edition (2024)",
+          "source_url": "https://pragprog.com/titles/atcrime2/your-code-as-a-crime-scene-second-edition/",
+          "verification_basis": "publisher_toc",
+          "verification_status": "verified_primary",
+          "verified_on": "2026-11-12",
+          "verification_scope": "Title, numbering where supplied, and edition only; AQAF applications are original editorial guidance, not quotations or detector validation."
+        }
+      ]
+    }
+  ],
+  "principles": [
+    {
+      "id": "AQK-ATTRIBUTES-001",
+      "title": "Choose architecture by product trade-offs",
+      "book_ids": [
+        "richards-ford-fundamentals-of-software-architecture",
+        "hunt-thomas-pragmatic-programmer"
+      ],
+      "question": "Which user-visible qualities justify this architecture, what alternatives were considered, and what cost was accepted?",
+      "required_evidence": "product scenarios and a decision record with alternatives and consequences",
+      "verification": "Walk through a concrete failure/change scenario; compare at least one simpler alternative.",
+      "limitations": "A desktop tool or small script need not adopt service boundaries, a formal domain model or additional layers.",
+      "applies_when": {
+        "profiles": [],
+        "facets": [],
+        "languages": []
+      },
+      "website_path": "/learn/architecture-trade-offs/",
+      "explanation": "Choose a structure because it serves a concrete product need. Record the cost you accept, so later reviewers can tell when the decision should change.",
+      "example": "A classroom management tool may favor reliable offline operation over central coordination. A decision record can state which operations remain local and what happens when the server cannot be reached.",
+      "counterexample": "Splitting a small offline utility into services solely to match an architecture label adds failure modes without evidence of benefit.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-BOUNDARY-001",
+      "title": "Hide volatile decisions behind useful contracts",
+      "book_ids": [
+        "ousterhout-philosophy-of-software-design",
+        "martin-clean-architecture",
+        "fowler-patterns-of-enterprise-application-architecture",
+        "evans-domain-driven-design"
+      ],
+      "question": "Which module owns each volatile decision and domain term, and what must callers know about frameworks, storage or transport?",
+      "required_evidence": "module contracts, allowed dependencies, ownership and caller examples",
+      "verification": "Trace a real use case through policy and effects; test the contract using an alternate adapter or fake.",
+      "limitations": "File/class counts and short methods do not establish a deep module. A useful boundary needs a reason to vary; no mandatory extra abstraction.",
+      "applies_when": {
+        "profiles": [],
+        "facets": [],
+        "languages": []
+      },
+      "website_path": "/learn/useful-boundaries/",
+      "explanation": "A boundary earns its cost when it hides a decision likely to change and gives callers a clear, stable contract. File counts and interface counts do not establish that value.",
+      "example": "A classroom action can depend on a small device-command contract while transport and operating-system details stay behind an adapter. Review whether callers still need to know those details.",
+      "counterexample": "An interface that exposes every transport field may move code without reducing coupling.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-CHANGE-001",
+      "title": "Separate characterization from behavior changes",
+      "book_ids": [
+        "fowler-refactoring",
+        "feathers-working-effectively-with-legacy-code",
+        "beck-test-driven-development"
+      ],
+      "question": "Before changing existing behavior, what observable contract is captured, and which new behavior is tested separately?",
+      "required_evidence": "characterization cases, a focused change plan and explicit behavior differences",
+      "verification": "Demonstrate the existing behavior first, then show a failing case for the intended change and a small reversible step.",
+      "limitations": "Characterization can preserve a bug temporarily; it is not approval of that behavior or authorization to refactor this repository.",
+      "applies_when": {
+        "profiles": [],
+        "facets": [],
+        "languages": []
+      },
+      "website_path": "/learn/safe-structural-change/",
+      "explanation": "Understand the current observable behavior before changing structure. Decide separately which existing behaviors should be preserved and which should intentionally change.",
+      "example": "Before replacing a classroom command dispatcher, record the responses for unknown devices, duplicate commands and timeouts. Change structure separately from changing those responses.",
+      "counterexample": "A large rewrite followed by tests copied from the new implementation does not show that important old behavior survived.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-TEST-001",
+      "title": "Test meaningful outcomes at the correct seam",
+      "book_ids": [
+        "khorikov-unit-testing",
+        "meszaros-xunit-test-patterns",
+        "freeman-pryce-growing-object-oriented-software",
+        "crispin-gregory-agile-testing"
+      ],
+      "question": "Which tests protect observable outcomes, which external effects require integration tests, and which outcomes require a person or real device?",
+      "required_evidence": "behavioral cases, independent fixtures, system-test results and named manual confirmations",
+      "verification": "Challenge a test with a realistic broken implementation; use deterministic async signals rather than arbitrary sleeps or shared mutable fakes.",
+      "limitations": "A test-file count or passing suite does not verify hardware/UI behavior. Mock/fake choices depend on ownership and the actual contract.",
+      "applies_when": {
+        "profiles": [],
+        "facets": [],
+        "languages": []
+      },
+      "website_path": "/learn/valuable-test-evidence/",
+      "explanation": "Ask what important failure a test can detect and how the expected result is established. Fast isolated tests, collaboration checks and user exploration supply different evidence.",
+      "example": "A timeout test should verify the visible command outcome and cleanup. A receiver authorization test should exercise the receiver boundary, even if a mock already confirms that a method was called.",
+      "counterexample": "A high test count or coverage percentage does not show that failures are detected or that deployed components work together.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-FAILURE-001",
+      "title": "Bound work and resolve ambiguous outcomes",
+      "book_ids": [
+        "nygard-release-it",
+        "kleppmann-designing-data-intensive-applications"
+      ],
+      "question": "What happens when an operation hangs, partially succeeds, fills storage or times out after the remote side has committed?",
+      "required_evidence": "deadline, resource and retry policies; cleanup ownership; recovery/read-back protocol",
+      "verification": "Inject a slow dependency, truncated write and ambiguous timeout; verify bounded retries, recoverable state and visible outcomes.",
+      "limitations": "These are failure experiments to prepare, never runtime properties inferred from timeout or retry spellings.",
+      "applies_when": {
+        "profiles": [
+          "api_backend",
+          "ai_pipeline",
+          "windows_client_server",
+          "multirepo_system",
+          "mcp_agent_server",
+          "scraper_data_pipeline"
+        ],
+        "facets": [
+          "proxy",
+          "backup",
+          "windows_service",
+          "browser_worker"
+        ],
+        "languages": []
+      },
+      "website_path": "/learn/bounded-failure/",
+      "explanation": "Failure handling needs an explicit time budget and an outcome the caller can interpret. A timeout may leave the business result unknown even when the connection has ended.",
+      "example": "If a classroom command times out after sending, show an unknown outcome until reconciliation establishes whether it ran. Bound concurrent attempts and define when another attempt is safe.",
+      "counterexample": "Blind retries after every timeout may execute a destructive action twice.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-PROTOCOL-001",
+      "title": "Version contracts and make retries deliberate",
+      "book_ids": [
+        "hohpe-woolf-enterprise-integration-patterns",
+        "kleppmann-designing-data-intensive-applications",
+        "fowler-patterns-of-enterprise-application-architecture"
+      ],
+      "question": "How are versions, capabilities, correlation, duplicates, ordering and expired requests handled at both ends of a boundary?",
+      "required_evidence": "message/DTO contracts, sender and receiver validation, version/duplicate policies",
+      "verification": "Exercise duplicate and reordered requests, lost replies and old/new peer versions; distinguish retry safety from exactly-once claims.",
+      "limitations": "Request/reply can use these ideas without a broker. Hash equality, transport encryption and request IDs alone do not prove authentication or replay protection.",
+      "applies_when": {
+        "profiles": [
+          "api_backend",
+          "multirepo_system",
+          "windows_client_server",
+          "mcp_agent_server"
+        ],
+        "facets": [
+          "proxy",
+          "windows_service"
+        ],
+        "languages": []
+      },
+      "website_path": "/learn/contracts-and-retries/",
+      "explanation": "A protocol needs agreed message meaning, compatibility and failure behavior. Delivery mechanisms alone cannot guarantee a business action happens exactly once.",
+      "example": "Give a classroom command a version and operation identity. Document which duplicates the receiver recognizes and what happens when an older agent receives an unfamiliar field.",
+      "counterexample": "Adding an operation identifier without storing or checking it at the receiver does not make retries idempotent.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-WINDOWS-001",
+      "title": "Review identity, session and broker authority separately",
+      "book_ids": [
+        "forshaw-windows-security-internals",
+        "yosifovich-windows-internals",
+        "howard-leblanc-writing-secure-code",
+        "shostack-threat-modeling"
+      ],
+      "question": "Which identity and session performs each action, and how does the receiver authorize a module, helper or client before exercising privilege?",
+      "required_evidence": "trust-boundary model, service/helper identities, requested capabilities and receiver-side authorization tests",
+      "verification": "On an owner-approved Windows test machine, verify denied cross-role requests, wrong-session actions, staging/path replacement and cleanup after interruption.",
+      "limitations": "C# alone does not establish Windows deployment. These notes do not certify ACLs, token behavior or supported Windows versions.",
+      "applies_when": {
+        "profiles": [
+          "windows_client_server"
+        ],
+        "facets": [
+          "windows_service"
+        ],
+        "languages": []
+      },
+      "website_path": "/learn/windows-authority/",
+      "explanation": "Separate operating-system identity, interactive session, application role and broker permissions. Check authorization where the privileged action is received.",
+      "example": "A desktop UI can request a classroom action through a service. Review the service’s caller verification, message validation and permitted action set independently of what the UI allows.",
+      "counterexample": "A hidden UI button or a local connection by itself is insufficient evidence that a privileged receiver authorizes each operation.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-CONCURRENCY-001",
+      "title": "Give asynchronous work an owner and an outcome",
+      "book_ids": [
+        "cleary-concurrency-in-csharp-cookbook",
+        "skeet-csharp-in-depth"
+      ],
+      "question": "Who owns cancellation, progress, continuations and shutdown, and which event handlers legitimately need a void return?",
+      "required_evidence": "lifetime/cancellation contracts, UI-thread rules and language/runtime compatibility",
+      "verification": "Test cancellation before/during completion, late progress and concurrent shutdown using controllable synchronization; reserve async-void review for its actual event context.",
+      "limitations": "Async is not necessarily parallel; a syntactic match does not prove a deadlock. Book language coverage does not establish support for newer compiler features.",
+      "applies_when": {
+        "profiles": [],
+        "facets": [
+          "browser_worker"
+        ],
+        "languages": [
+          "csharp"
+        ]
+      },
+      "website_path": "/learn/asynchronous-ownership/",
+      "explanation": "Every asynchronous operation needs someone responsible for its lifetime and outcome. Review cancellation, exceptions and shutdown together rather than treating async syntax as a quality signal.",
+      "example": "When a classroom view closes, define whether its device requests are cancelled or continue under a longer-lived owner. The owner should observe completion and report an intelligible result.",
+      "counterexample": "A fire-and-forget call can outlive its view and lose exceptions even when all methods are marked async.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-TRUST-001",
+      "title": "Keep integrity, authentication and authority distinct",
+      "book_ids": [
+        "shostack-threat-modeling",
+        "anderson-security-engineering",
+        "aumasson-serious-cryptography",
+        "ristic-bulletproof-tls-and-pki"
+      ],
+      "question": "What security property is required at each boundary, who is trusted to assert identity, and how are rotation and recovery handled without encouraging bypass?",
+      "required_evidence": "threat model, key/trust lifecycle, protocol rationale and expert/platform review",
+      "verification": "Prepare wrong-peer, revoked-key and failed-rotation cases for an authorized test environment; have specialists assess constructions against current platform guidance.",
+      "limitations": "No cryptographic construction, algorithm strength or TLS configuration is validated by this agenda. Book summaries are not current cryptographic implementation instructions.",
+      "applies_when": {
+        "profiles": [
+          "windows_client_server",
+          "api_backend",
+          "mcp_agent_server",
+          "multirepo_system"
+        ],
+        "facets": [
+          "authentication",
+          "proxy",
+          "windows_service"
+        ],
+        "languages": []
+      },
+      "website_path": "/learn/integrity-identity-authority/",
+      "explanation": "Integrity, peer identity and permission to act answer separate questions. Describe the threat and trust assumptions before choosing cryptographic or access-control mechanisms.",
+      "example": "For a classroom command channel, ask separately whether the message was altered, which peer sent it and whether that peer may perform this action on this device.",
+      "counterexample": "A checksum detects some changes but does not establish an authorized sender; encrypted transport does not define application permissions.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-RELEASE-001",
+      "title": "Promote one identifiable artifact and rehearse recovery",
+      "book_ids": [
+        "humble-farley-continuous-delivery"
+      ],
+      "question": "Is the tested artifact the artifact shipped, and how are application/data compatibility and failed updates recovered?",
+      "required_evidence": "artifact digests, build provenance, compatibility matrix and recovery drill results",
+      "verification": "Trace one digest from build to test to release; on a permitted disposable installation rehearse interrupted update and rollback/roll-forward including data.",
+      "limitations": "Signed or hashed files establish only their stated integrity/provenance properties; a green build is not proof of release readiness.",
+      "applies_when": {
+        "profiles": [],
+        "facets": [],
+        "languages": []
+      },
+      "website_path": "/learn/release-and-recovery/",
+      "explanation": "Connect a release to the exact artifact and configuration that were verified. Rehearse recovery with the actual compatibility and data constraints.",
+      "example": "Record the hashes and compatible versions of the classroom controller and agents. Rehearse an interrupted upgrade and decide how older agents continue or safely refuse requests.",
+      "counterexample": "Rebuilding after validation may produce a different artifact; rolling back a binary may leave an incompatible database.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-OPERATIONS-001",
+      "title": "Measure user outcomes and learn from failure",
+      "book_ids": [
+        "beyer-site-reliability-engineering",
+        "nygard-release-it"
+      ],
+      "question": "Which observable user outcomes matter, who acts on failures, and what changes after an incident or repeated manual task?",
+      "required_evidence": "measured indicators/objectives, meaningful alerts, runbooks and follow-up records",
+      "verification": "Rehearse a representative fault and recovery, checking whether the user and operator can tell success from partial completion.",
+      "limitations": "Do not import a large-service on-call model or arbitrary SLO numbers into a small desktop tool.",
+      "applies_when": {
+        "profiles": [
+          "api_backend",
+          "windows_client_server",
+          "multirepo_system",
+          "mcp_agent_server"
+        ],
+        "facets": [
+          "proxy",
+          "windows_service"
+        ],
+        "languages": []
+      },
+      "website_path": "/learn/user-outcomes-and-operations/",
+      "explanation": "Choose operational measures that describe a useful outcome, then connect failures to a response. An alert should help someone decide what to do.",
+      "example": "Measure whether a classroom command completes within the agreed time for connected devices. A response guide can distinguish an offline device from a broken controller and identify the next safe action.",
+      "counterexample": "Healthy process metrics alone do not establish that a teacher’s command reached the intended devices.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-EVOLUTION-001",
+      "title": "Turn chosen constraints into falsifiable checks",
+      "book_ids": [
+        "ford-building-evolutionary-architectures",
+        "mcconnell-code-complete"
+      ],
+      "question": "Which architecture rule prevents a real drift, and what evidence shows its check can fail for the intended violation?",
+      "required_evidence": "a declared constraint, scope, owner and valid/violating fixtures",
+      "verification": "Run the check against a conforming fixture and a deliberate violation; record false-positive limits and the maintenance owner.",
+      "limitations": "Folder presence, class size and an always-green test do not establish architectural conformance; avoid magical metric thresholds.",
+      "applies_when": {
+        "profiles": [],
+        "facets": [],
+        "languages": []
+      },
+      "website_path": "/learn/architectural-fitness-functions/",
+      "explanation": "A fitness function makes a chosen architectural constraint observable and repeatable. Define the desired property, a check that could fail, an owner and the conditions under which the constraint should be reconsidered.",
+      "example": "If a classroom command protocol must remain independent of the desktop UI, a dependency check can reject imports from the protocol into UI code. Pair it with compatibility tests for the behaviors that imports cannot establish.",
+      "counterexample": "A green import check cannot establish authorization, delivery success or acceptable latency. The constraint must first be justified by the product.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-UX-001",
+      "title": "Make risky operations understandable and recoverable",
+      "book_ids": [
+        "norman-design-of-everyday-things"
+      ],
+      "question": "Can the user predict the action, see partial progress/failure and recover without learning implementation details?",
+      "required_evidence": "user scenarios, action/result mapping, accessible feedback and recovery behavior",
+      "verification": "Have a representative user try failure and undo paths; verify exact restoration or explicitly document irreversible effects.",
+      "limitations": "Confirmation fatigue is a design risk; do not add prompts to every benign action or infer usability from screenshots/markup.",
+      "applies_when": {
+        "profiles": [
+          "desktop_utility",
+          "windows_client_server",
+          "swift_app",
+          "tauri_electron",
+          "android",
+          "browser_extension"
+        ],
+        "facets": [
+          "desktop_ui",
+          "desktop_widget",
+          "browser_python"
+        ],
+        "languages": []
+      },
+      "website_path": "/learn/recoverable-user-actions/",
+      "explanation": "Help people understand what an action will affect, what happened and how to recover. Risk and ambiguity should shape feedback and recovery design.",
+      "example": "Before a bulk classroom action, show the selected devices and intended effect. Afterwards distinguish success, refusal, offline devices and unknown outcomes, with a safe way to investigate.",
+      "counterexample": "A generic success toast after dispatch hides partial failure; repeated confirmation dialogs can become habitual and fail to prevent targeting mistakes.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    },
+    {
+      "id": "AQK-HISTORY-001",
+      "title": "Use change history as evidence, not a quality verdict",
+      "book_ids": [
+        "tornhill-your-code-as-a-crime-scene"
+      ],
+      "question": "Where do independently supplied change frequency, complexity and co-change evidence suggest a focused investigation?",
+      "required_evidence": "owner-supplied commit/change history; mtime is not change frequency",
+      "verification": "Check history coverage and bulk/squash artifacts, then inspect a candidate hotspot and characterize behavior before extracting code.",
+      "limitations": "No Git hooks or repository commands are run. Without history, hotspot and temporal-coupling conclusions remain unknown; never rank people from these metrics.",
+      "applies_when": {
+        "profiles": [],
+        "facets": [],
+        "languages": []
+      },
+      "website_path": "/learn/history-informed-review/",
+      "explanation": "Use owner-supplied change history to select investigation areas. Combine change frequency with structure and product context, and avoid judging individual contributors.",
+      "example": "If a classroom synchronization component changes often and repeatedly needs emergency fixes, inspect its contracts and tests first. Check whether generated files or repository moves distort the history.",
+      "counterexample": "A large file, recent modification time or a busy contributor is insufficient evidence of a defect or an architectural problem.",
+      "example_basis": "Illustrative classroom-management scenario adapted from the review themes; not a verified finding about Classroom Manager or any deployed project.",
+      "editorial_basis": "Original AQAF application guidance; primary-source checks establish reading-reference facts, not this application or detector accuracy."
+    }
+  ],
+  "limitations": [
+    "Imported application summaries, not a full-text reading of the books.",
+    "Questions are unknown/unconfirmed review work, not detected architecture failures.",
+    "No ratings, prices, covers, PDFs, long quotations or unverified chapter/edition-specific claims are imported."
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "id": "mobile",
+  "name": "Mobile Pack",
+  "description": "iOS/macOS Swift and native Android architecture",
+  "profiles": [
+    "swift_app",
+    "android"
+  ],
+  "status": "mixed_coverage",
+  "pack_license": "MIT",
+  "commercial_note": "Base profiles are MIT-licensed; specialist services and verified benchmarks can be offered separately."
+}

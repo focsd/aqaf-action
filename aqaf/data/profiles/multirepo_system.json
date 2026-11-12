@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "multirepo_system",
+  "name": "Multi-repository System",
+  "product_type": "systems",
+  "target_architecture": "Explicit cross-repository contracts, interface ownership, pinned versions and compatibility tests.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "aqaf-system.json",
+      "weight": 115
+    }
+  ],
+  "quality_priorities": [
+    "contract compatibility",
+    "dependency mapping",
+    "release coordination"
+  ],
+  "source_ids": [
+    "B03",
+    "B10"
+  ],
+  "status": "experimental",
+  "coverage": "guidance_only",
+  "notes": ""
+}

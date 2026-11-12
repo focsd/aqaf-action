@@ -1,0 +1,319 @@
+{
+  "schema_version": 2,
+  "status": "experimental",
+  "namespace": "AQR",
+  "score_impact": 0,
+  "checks": [
+    {
+      "id": "AQR-BROWSER-001",
+      "name": "Browser/worker error provenance",
+      "status": "experimental",
+      "coverage": "bounded_static_review",
+      "languages": [
+        "html",
+        "javascript",
+        "jsx",
+        "tsx",
+        "typescript"
+      ],
+      "source_ids": [
+        "B12",
+        "S18",
+        "S29",
+        "S34"
+      ],
+      "unknowns": [
+        "Message consumers, provenance, UI state and all error paths are not resolved."
+      ],
+      "next_test": "Use a fake worker/channel to inject failure and stale replies; verify visible state and origin binding.",
+      "false_positive_risk": "Controls may be implemented by wrappers, imports, transactions or callers outside the supported syntax.",
+      "validation_status": "synthetic_positive_negative_fixtures_only",
+      "source_scope": "References explain the review concern; they do not validate detector accuracy or imply endorsement."
+    },
+    {
+      "id": "AQR-CRED-001",
+      "name": "Encoded fallback binding",
+      "status": "experimental",
+      "coverage": "bounded_static_review",
+      "languages": [
+        "csharp",
+        "html",
+        "java",
+        "javascript",
+        "jsx",
+        "kotlin",
+        "php",
+        "powershell",
+        "python",
+        "rust",
+        "tsx",
+        "typescript"
+      ],
+      "source_ids": [
+        "S06",
+        "S20",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27",
+        "S29",
+        "S30",
+        "S31",
+        "S32",
+        "S34",
+        "S35",
+        "S36",
+        "S41"
+      ],
+      "unknowns": [
+        "Authentication use, credential validity and cross-file aliases are unknown. No decoding or credential requests were performed."
+      ],
+      "next_test": "With newly generated non-live values, test missing configuration and request construction; verify explicit no-key behavior without contacting a provider.",
+      "false_positive_risk": "Controls may be implemented by wrappers, imports, transactions or callers outside the supported syntax.",
+      "validation_status": "synthetic_positive_negative_fixtures_only",
+      "source_scope": "References explain the review concern; they do not validate detector accuracy or imply endorsement."
+    },
+    {
+      "id": "AQR-STATE-001",
+      "name": "Durable JSON publication/recovery",
+      "status": "experimental",
+      "coverage": "bounded_static_review",
+      "languages": [
+        "csharp",
+        "html",
+        "java",
+        "javascript",
+        "jsx",
+        "kotlin",
+        "php",
+        "powershell",
+        "python",
+        "rust",
+        "shell",
+        "swift",
+        "tsx",
+        "typescript"
+      ],
+      "source_ids": [
+        "B04",
+        "S17",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27",
+        "S29",
+        "S30",
+        "S31",
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S41",
+        "S42"
+      ],
+      "unknowns": [
+        "Wrapper atomicity, filesystem behavior, backups and crash outcomes are not established."
+      ],
+      "next_test": "Use a disposable directory and injected write/rename/parse faults; verify prior data and corrupt-state preservation.",
+      "false_positive_risk": "Controls may be implemented by wrappers, imports, transactions or callers outside the supported syntax.",
+      "validation_status": "synthetic_positive_negative_fixtures_only",
+      "source_scope": "References explain the review concern; they do not validate detector accuracy or imply endorsement."
+    },
+    {
+      "id": "AQR-JOB-001",
+      "name": "Job admission and terminal ownership",
+      "status": "experimental",
+      "coverage": "bounded_static_review",
+      "languages": [
+        "csharp",
+        "html",
+        "javascript",
+        "jsx",
+        "python",
+        "tsx",
+        "typescript"
+      ],
+      "source_ids": [
+        "B04",
+        "S19",
+        "S22",
+        "S24",
+        "S29",
+        "S30",
+        "S31",
+        "S34",
+        "S35"
+      ],
+      "unknowns": [
+        "Overlap, transactions, leases, database constraints and caller serialization are unresolved."
+      ],
+      "next_test": "Use deferred promises and a disposable database adapter to interleave admission, cancellation and terminal updates; verify owner/state fences.",
+      "false_positive_risk": "Controls may be implemented by wrappers, imports, transactions or callers outside the supported syntax.",
+      "validation_status": "synthetic_positive_negative_fixtures_only",
+      "source_scope": "References explain the review concern; they do not validate detector accuracy or imply endorsement."
+    },
+    {
+      "id": "AQR-VALID-001",
+      "name": "Unknown-document runtime validation",
+      "status": "experimental",
+      "coverage": "bounded_static_review",
+      "languages": [
+        "csharp",
+        "html",
+        "java",
+        "javascript",
+        "jsx",
+        "kotlin",
+        "php",
+        "python",
+        "rust",
+        "swift",
+        "tsx",
+        "typescript"
+      ],
+      "source_ids": [
+        "S06",
+        "S16",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S29",
+        "S30",
+        "S31",
+        "S32",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S42"
+      ],
+      "unknowns": [
+        "External validators and their correctness are not resolved; a type assertion is not runtime validation."
+      ],
+      "next_test": "Feed malformed/non-live documents to an authorized isolated validator test; verify rejection before state installation.",
+      "false_positive_risk": "Controls may be implemented by wrappers, imports, transactions or callers outside the supported syntax.",
+      "validation_status": "synthetic_positive_negative_fixtures_only",
+      "source_scope": "References explain the review concern; they do not validate detector accuracy or imply endorsement."
+    },
+    {
+      "id": "AQR-LIFE-001",
+      "name": "Worker/save lifecycle ownership",
+      "status": "experimental",
+      "coverage": "bounded_static_review",
+      "languages": [
+        "csharp",
+        "html",
+        "javascript",
+        "jsx",
+        "kotlin",
+        "powershell",
+        "python",
+        "rust",
+        "shell",
+        "swift",
+        "tsx",
+        "typescript"
+      ],
+      "source_ids": [
+        "B06",
+        "S18",
+        "S19",
+        "S22",
+        "S23",
+        "S24",
+        "S26",
+        "S27",
+        "S29",
+        "S30",
+        "S31",
+        "S33",
+        "S34",
+        "S35",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S41",
+        "S42"
+      ],
+      "unknowns": [
+        "External cleanup, actual edit interleavings, revision semantics and stale acknowledgements remain unknown."
+      ],
+      "next_test": "Use a fake worker, deferred saves and revision changes to check teardown, startup failure and saved-status ownership.",
+      "false_positive_risk": "Controls may be implemented by wrappers, imports, transactions or callers outside the supported syntax.",
+      "validation_status": "synthetic_positive_negative_fixtures_only",
+      "source_scope": "References explain the review concern; they do not validate detector accuracy or imply endorsement."
+    },
+    {
+      "id": "AQR-ERROR-001",
+      "name": "Explicit diagnostics and error boundary context",
+      "status": "experimental",
+      "coverage": "bounded_static_review",
+      "languages": [
+        "csharp",
+        "java",
+        "kotlin",
+        "php",
+        "powershell",
+        "python",
+        "rust",
+        "shell"
+      ],
+      "source_ids": [
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27",
+        "S30",
+        "S31",
+        "S32",
+        "S33",
+        "S35",
+        "S36",
+        "S41"
+      ],
+      "unknowns": [
+        "Binding, operational intent, caller/framework controls and all exit paths remain unresolved."
+      ],
+      "next_test": "Review the source role and characterize the relevant behavior in disposable fixtures.",
+      "false_positive_risk": "Syntax may be deliberate and safe; visible control syntax is not proof of complete coverage.",
+      "validation_status": "synthetic_positive_negative_fixtures_only",
+      "source_scope": "Official references explain semantics, not detector accuracy or endorsement."
+    },
+    {
+      "id": "AQR-SQL-001",
+      "name": "SQL role and transaction syntax",
+      "status": "experimental",
+      "coverage": "bounded_static_review",
+      "languages": [
+        "sql"
+      ],
+      "source_ids": [
+        "S28"
+      ],
+      "unknowns": [
+        "Binding, operational intent, caller/framework controls and all exit paths remain unresolved."
+      ],
+      "next_test": "Review the source role and characterize the relevant behavior in disposable fixtures.",
+      "false_positive_risk": "Syntax may be deliberate and safe; visible control syntax is not proof of complete coverage.",
+      "validation_status": "synthetic_positive_negative_fixtures_only",
+      "source_scope": "Official references explain semantics, not detector accuracy or endorsement."
+    }
+  ]
+}

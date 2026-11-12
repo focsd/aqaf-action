@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "rust_app",
+  "name": "Rust Application or Service",
+  "product_type": "systems",
+  "target_architecture": "Library-first modules and thin executable entrypoints with typed errors and documented unsafe boundaries.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "Cargo.toml",
+      "weight": 80
+    },
+    {
+      "kind": "extension",
+      "value": ".rs",
+      "weight": 55
+    }
+  ],
+  "quality_priorities": [
+    "crate ownership",
+    "unsafe invariants",
+    "dependency audit"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "heuristic",
+  "coverage": "heuristic",
+  "notes": ""
+}

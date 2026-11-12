@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "unknown_or_general_app",
+  "name": "Unclassified / General",
+  "product_type": "web",
+  "target_architecture": "Choose only after a domain and deployment assessment.",
+  "packs": [
+    "web",
+    "mobile",
+    "systems",
+    "automation"
+  ],
+  "detection": [],
+  "quality_priorities": [
+    "requirements analysis",
+    "measurement",
+    "incremental design"
+  ],
+  "source_ids": [
+    "B01"
+  ],
+  "status": "heuristic",
+  "coverage": "guidance_only",
+  "notes": ""
+}

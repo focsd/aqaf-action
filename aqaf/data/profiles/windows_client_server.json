@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "windows_client_server",
+  "name": "Windows Client/Server Management",
+  "product_type": "systems",
+  "target_architecture": "Separate UI/client, transport contracts, privileged agent service and policy layer; audit high-impact actions.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "text",
+      "value": "win32service",
+      "weight": 75
+    },
+    {
+      "kind": "text",
+      "value": "ServiceController",
+      "weight": 60
+    }
+  ],
+  "quality_priorities": [
+    "agent authentication",
+    "rollback",
+    "privilege separation"
+  ],
+  "source_ids": [
+    "B01",
+    "B09"
+  ],
+  "status": "experimental",
+  "coverage": "guidance_only",
+  "notes": "No privilege safety assessment is provided by automated rules."
+}
