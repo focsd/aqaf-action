@@ -2,7 +2,6 @@ name: Self test
 on:
   push:
     branches: [main]
-    tags: ['v*']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -53,30 +52,3 @@ jobs:
       - name: Confirm the invalid input failed the step
         shell: bash
         run: test "${{ steps.invalid.outcome }}" = failure
-
-  published-tag:
-    # On a release tag, use the action the way a consumer does: by repository and tag.
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Use the published tag
-        id: consumer
-        uses: focsd/aqaf-action@${{ github.ref_name }}
-        with:
-          output: aqaf-consumer-report.json
-      - name: Check the report names the tagged version
-        shell: bash
-        env:
-          REPORT: ${{ steps.consumer.outputs.report }}
-          TAG: ${{ github.ref_name }}
-        run: |
-          python3 - <<'PY'
-          import json, os, pathlib
-          data = json.loads(pathlib.Path(os.environ['REPORT']).read_text())
-          assert 'v' + data['aqaf_version'] == os.environ['TAG'], (data['aqaf_version'], os.environ['TAG'])
-          print('consumer run ok:', os.environ['TAG'])
-          PY

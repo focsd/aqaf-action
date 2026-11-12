@@ -1,0 +1,33 @@
+name: Consumer test
+# Uses the published action the way a consumer does: by repository and tag. GitHub does not allow expressions in `uses:`,
+# so the tag is written out; it is updated for each release together with the action itself.
+on:
+  push:
+    tags: ['v1.1.2']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  consumer:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Use the published tag
+        id: consumer
+        uses: focsd/aqaf-action@v1.1.2
+        with:
+          output: aqaf-consumer-report.json
+      - name: The report names the tagged version
+        shell: bash
+        env:
+          REPORT: ${{ steps.consumer.outputs.report }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib
+          data = json.loads(pathlib.Path(os.environ['REPORT']).read_text())
+          assert data['aqaf_version'] == '1.1.2', data['aqaf_version']
+          print('consumer run ok: AQAF', data['aqaf_version'], 'findings', len(data['findings']))
+          PY
