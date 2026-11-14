@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: focsd/aqaf-action@v1.1.2   # pin a tag or a full commit SHA
+      - uses: focsd/aqaf-action@v1.1.3   # pin a tag or a full commit SHA
         with:
           output: aqaf-report.json
 ```
@@ -24,7 +24,7 @@ jobs:
 To fail a job only on findings that are *new* compared with a saved baseline report:
 
 ```yaml
-      - uses: focsd/aqaf-action@v1.1.2
+      - uses: focsd/aqaf-action@v1.1.3
         with:
           baseline: aqaf-baseline.json
           fail-on: new-high        # or new-medium; requires a baseline
