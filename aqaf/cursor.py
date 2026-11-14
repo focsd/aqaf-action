@@ -43,14 +43,17 @@ def load(path,expected):
     return offset
 
 
-def write(path,scope,identity_value,next_offset):
+def write(path,scope,identity_value,next_offset,eligible=None):
     path=Path(path).absolute()
     resolved=path.resolve()
     if resolved==scope.root or scope.root in resolved.parents:raise ValueError('Continuation state must be outside the assessed source')
     if path.exists() or path.is_symlink():raise ValueError('Continuation state already exists; choose a new output file')
     path.parent.mkdir(parents=True,exist_ok=True)
     fd,temporary=tempfile.mkstemp(prefix='.aqaf-cursor-',dir=path.parent)
+    state={'schema_version':1,'identity':identity_value,'next_offset':next_offset}
+    if eligible is not None:state.update({'files_eligible':eligible,'files_remaining':max(0,eligible-next_offset),'complete':next_offset>=eligible})
+    state['scope']='Independent partial page; previous evidence is not merged or marked complete.'
     try:
-        with os.fdopen(fd,'w') as f:json.dump({'schema_version':1,'identity':identity_value,'next_offset':next_offset,'scope':'Independent partial page; previous evidence is not merged or marked complete.'},f,indent=2)
+        with os.fdopen(fd,'w') as f:json.dump(state,f,indent=2)
         os.link(temporary,path)  # Atomic create without replacing historical state.
     finally:Path(temporary).unlink(missing_ok=True)

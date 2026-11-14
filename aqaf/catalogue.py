@@ -12,6 +12,10 @@ from .scope import Scope
 
 SCHEMA=1
 
+def remote_keys(instance):
+    """Normalised git remotes recorded by `projects discover --git` for an instance."""
+    repos=(instance['metadata'].get('git') or {}).get('repositories') or []
+    return {remote['key'] for repo in repos for remote in repo['remotes']}
 def now():return datetime.now(timezone.utc).isoformat().replace('+00:00','Z')
 def encode(value):return json.dumps(value,sort_keys=True,ensure_ascii=True)
 def stable(value):return hashlib.sha256(value.encode()).hexdigest()
@@ -229,6 +233,7 @@ class Catalogue:
         return {'name_features':names,'schema_version':1,'a':a,'b':b,'selected_source_equal':equal,
                 'normalized_newlines_equal':({e['path']:e.get('normalized_newlines_sha256') for e in sa['entries'] if e['path'] in selected(sa)}=={e['path']:e.get('normalized_newlines_sha256') for e in sb['entries'] if e['path'] in selected(sb)}) if sa and sb else None,
                 'compared_files':len(selected(sa)) if sa else 0,'noncode_selected_equal':({e['path']:e['sha256'] for e in sa['entries']}=={e['path']:e['sha256'] for e in sb['entries']}) if sa and sb else None,
+                'shared_git_remote':sorted(remote_keys(aa)&remote_keys(bb)),
                 'whole_project_equal':None,'name_similarity':round(SequenceMatcher(None,x,y).ratio(),4),
                 'state':'candidate','canonical':'user_decision_required','mtime_used_as_quality':False,
                 'scope':'Selected authored source/config; assets and excluded content may differ.',

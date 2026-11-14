@@ -75,6 +75,17 @@ def read_text(p):
     try: return p.read_text(encoding='utf-8', errors='ignore')
     except Exception: return ''
 
+def unknown_component_message(component,scope,limit=20):
+    """Name what --component accepts, and say when the requested path is a candidate the assessment did not select."""
+    valid=sorted({x for n in scope.nodes for x in (n['id'],n['root'])})
+    shown=', '.join(valid[:limit])+(f' ... ({len(valid)} values)' if len(valid)>limit else '')
+    message=f'Unknown component/root: {component}. Valid components: {shown}'
+    candidate=next((a for a in getattr(scope,'ambiguous_roots',[]) if a.get('root')==component),None)
+    if candidate:
+        message+=f'. {component} is a candidate root that was not selected ({candidate.get("reason")}); {len(scope.ambiguous_roots)} such candidates are listed under projects.ambiguous_roots in the JSON report'
+    return message
+
+
 def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", capabilities=(), review_signals=False, respect_gitignore=True, scope_policy='typed', scope_config=None,
          inventory_all=False, component=None, review_options=None, session=None, review_knowledge=False):
     from .scope import Scope
@@ -83,7 +94,7 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
     files=scope.files
     if component:
         selected=next((n for n in scope.nodes if n['id']==component or n['root']==component),None)
-        if selected is None:raise ValueError('Unknown component/root: '+component)
+        if selected is None:raise ValueError(unknown_component_message(component,scope))
         root=scope.root if selected['root']=='.' else scope.root/selected['root']
         files=[r['path'] for r in scope.records if r['owner']==selected['id']]
     read=scope.text
@@ -416,6 +427,8 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
         result['review'] = review_files(files, root, scope=scope, **(review_options or {}))
     result['scope']=scope_metadata
     result['scope']['analysis_root']=str(root)
+    from .unknowns import scan_unknowns
+    result['unknowns']=scan_unknowns(result)
     result['scope']['selected_component']=component
     result['score_scope']='selected_container_source_not_an_average_of_children'
     result['assessment_state']='source_collected' if code else 'no_collected_core_code'
@@ -482,6 +495,16 @@ def md_report(r):
         lines.append('')
         for f in r['suppressed_findings']:
             lines.append(f"- {f['rule_id']} ({f['fingerprint'][:12]}): {f['suppression_reason']}")
+        lines.append('')
+    if r.get('unknowns'):
+        from .unknowns import markdown as unknowns_markdown
+        lines.extend(unknowns_markdown(r['unknowns']))
+    if (r.get('baseline') or {}).get('resolved'):
+        lines.append(f"## Resolved since baseline ({len(r['baseline']['resolved'])})")
+        lines.append('Findings present in the baseline report that this scan no longer reports. Suppressed findings are not counted as resolved.')
+        lines.append('')
+        for f in r['baseline']['resolved']:
+            lines.append(f"- {f['rule_id']} ({f['severity']}): {f['title']}")
         lines.append('')
     if r.get('source_registry'):
         lines.append('## Source references')
@@ -576,7 +599,12 @@ def add_baseline_diff(report, baseline_path):
         raise ValueError(f'Invalid baseline JSON: {exc}') from exc
     for f in report['findings']:
         f['status'] = 'existing' if f['fingerprint'] in previous else 'new'
-    report['baseline'] = {'file': str(baseline_path), 'new_findings': sum(f['status']=='new' for f in report['findings'])}
+    current = {f['fingerprint'] for f in report['findings']} | {f.get('fingerprint') for f in report.get('suppressed_findings', [])}
+    resolved = [{'rule_id': f.get('rule_id'), 'title': f.get('title'), 'severity': f.get('severity'), 'fingerprint': f.get('fingerprint') or fingerprint(f)}
+                for f in old['findings'] if (f.get('fingerprint') or fingerprint(f)) not in current]
+    report['baseline'] = {'file': str(baseline_path), 'new_findings': sum(f['status']=='new' for f in report['findings']),
+                          'resolved': resolved,
+                          'counts': {'new': sum(f['status']=='new' for f in report['findings']), 'existing': sum(f['status']=='existing' for f in report['findings']), 'resolved': len(resolved)}}
     return report
 
 
@@ -635,6 +663,7 @@ def main(argv=None):
     argv=list(sys.argv[1:] if argv is None else argv)
     from . import project_commands
     if project_commands.matches(argv):return project_commands.main(argv)
+    if project_commands.wants_group_help(argv):return project_commands.group_help(argv)
     if argv and argv[0] in ('profiles','packs'): return registry_command(argv)
     ap=argparse.ArgumentParser(description='AQAF local architecture scanner (heuristic, non-certifying)')
     ap.add_argument('repo', nargs='?', default='.', help='Repository path')
@@ -684,16 +713,23 @@ def main(argv=None):
             cursor_options={'max_files':args.review_max_files,'max_total_bytes':args.review_max_bytes,'max_file_bytes':args.review_file_bytes}
             cursor_identity=identity(session,cursor_options)
             if args.review_cursor_in:
-                if args.review_offset:raise ValueError('Choose a cursor or an explicit offset')
+                if args.review_offset:raise ValueError('Choose a cursor or an explicit offset, not both: the cursor already carries the next offset')
                 args.review_offset=load(args.review_cursor_in,cursor_identity)
         r=add_fingerprints(scan(repo,args.profile,registry,args.pack,args.capability,review_signals=args.review_signals,
             respect_gitignore=args.gitignore,scope_policy=args.scope_policy,scope_config=config_document(args.scope_config),
             inventory_all=args.inventory_all,component=args.component,session=session,review_knowledge=args.review_knowledge,
             review_options={'max_files':args.review_max_files,'max_total_bytes':args.review_max_bytes,'max_file_bytes':args.review_file_bytes,'offset':args.review_offset}))
+        if args.review_signals and r.get('review'):
+            # Say whether this page ends the continuation, so callers do not page until a cap.
+            page_scope=r['review']['scope']
+            reached=min(page_scope['files_eligible'],args.review_offset+page_scope['files_attempted'])
+            page_scope['files_remaining']=page_scope['files_eligible']-reached
+            page_scope['complete']=page_scope['files_remaining']==0
+            if args.review_offset and not page_scope['files_attempted'] and page_scope['complete']:page_scope['page_note']='continuation_complete: no eligible files remain after this offset'
         if args.review_cursor_out:
             from .cursor import write
             # Include byte/size failures in the page; never silently merge older pages.
-            write(args.review_cursor_out,session,cursor_identity,min(r['review']['scope']['files_eligible'],args.review_offset+r['review']['scope']['files_attempted']))
+            write(args.review_cursor_out,session,cursor_identity,min(r['review']['scope']['files_eligible'],args.review_offset+r['review']['scope']['files_attempted']),r['review']['scope']['files_eligible'])
         r=apply_suppressions(r,Path(args.config).resolve() if args.config else repo/'.aqaf.json')
         r=add_baseline_diff(r,Path(args.baseline) if args.baseline else None)
     except (ValueError, ProfileError) as exc:

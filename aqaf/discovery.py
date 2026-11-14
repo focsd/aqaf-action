@@ -110,7 +110,8 @@ class Finder:
     def __init__(self, engine, *, respect_gitignore=True, max_depth=24,
                  max_directories=100000, max_entries=1000000, max_projects=2000,
                  max_files_per_project=500, max_bytes=16000000, exclude=(), known=None,
-                 include_archives=False, include_installed_plugins=False, scope_config=None):
+                 include_archives=False, include_installed_plugins=False, scope_config=None,
+                 progress=None, min_probability=0.0, include_installed_extensions=False, git=False):
         self.engine = engine
         self.scope_config=scope_config or {}
         self.registry = engine['registry'].Registry()
@@ -125,12 +126,29 @@ class Finder:
         self.known = known or {}
         self.include_archives = include_archives
         self.include_installed_plugins = include_installed_plugins
+        self.include_installed_extensions = include_installed_extensions
+        self.progress = progress                  # a text stream (stderr) or None
+        self.min_probability = float(min_probability)
+        self.git = git
+        self.stopped = None                       # what ended the walk early: {'reason', 'last_directory'}
+        self._last_progress = None                # monotonic time of the last line; None until the first
         self.stats = Counter()
         self.exclusions = Counter()
         self.issues = []
         self.rows = []
         self.seen = set()
         self.budget_exhausted = False
+
+    def report_progress(self, directory):
+        if self.progress is None:
+            return
+        import time
+        now = time.monotonic()
+        if self._last_progress is not None and now - self._last_progress < 5:
+            return
+        self._last_progress = now
+        print(f"aqaf discover: {self.stats['directories_visited']} directories, {self.stats['entries_seen']} entries, "
+              f"{len(self.rows)} candidates; at {directory}", file=self.progress, flush=True)
 
     def issue(self, reason, path):
         self.stats['issues'] += 1
@@ -226,6 +244,7 @@ class Finder:
                 if directory in self.seen:
                     continue
                 self.seen.add(directory)
+                self.report_progress(directory)
                 relative = directory.relative_to(root).as_posix()
                 if (not self.include_installed_plugins and directory != root
                         and directory.name == 'plugins' and directory.parent.name == 'wp-content'
@@ -235,6 +254,8 @@ class Finder:
                 entries = self.listing(directory, root)
                 if entries is None:
                     if self.stats['entries_seen'] >= self.limits['max_entries'] or self.stats['directories_visited'] >= self.limits['max_directories']:
+                        self.stopped = {'reason': 'max_entries' if self.stats['entries_seen'] >= self.limits['max_entries'] else 'max_directories',
+                                        'last_directory': str(directory)}
                         break
                     continue
                 files, dirs = [], []
@@ -243,6 +264,10 @@ class Finder:
                     elif kind == 'directory': dirs.append(name)
                     elif kind == 'file': files.append(name)
                     else: self.exclusions['special_file'] += 1
+                if (not self.include_installed_extensions and directory.name == 'Extensions'
+                        and any(re.fullmatch(r'[a-p]{32}', name) for name in dirs)):
+                    self.exclusions['installed_browser_extensions'] += 1     # a browser profile's installed extensions
+                    continue
                 names = set(files + dirs)
                 markers = self.markers(files + [n for n in dirs if n.endswith(('.xcodeproj', '.xcworkspace'))])
                 families = set(inherited) | set(markers.values())
@@ -311,6 +336,7 @@ class Finder:
                 if markers or has_git or fallback or plugin:
                     if len(self.rows) >= self.limits['max_projects']:
                         self.issue('project_budget', directory)
+                        self.stopped = {'reason': 'max_projects', 'last_directory': str(directory)}
                         break
                     row = {'path': str(directory), 'search_root': str(root), 'relative_path': relative,
                            'parent_project': parent['path'] if parent else None,
@@ -538,8 +564,23 @@ class Finder:
         digest = hashlib.sha256()
         for p in sorted(files):
             digest.update(p.relative_to(self.engine['source']).as_posix().encode() + b'\0' + p.read_bytes())
+        visible = [r for r in self.rows if r['root_probability'] >= self.min_probability]
+        hidden = len(self.rows) - len(visible)
+        git_links = None
+        if self.git:
+            from . import gitinfo
+            inspected = {}
+            for row in visible:
+                row['git'] = inspected[row['path']] = gitinfo.inspect(row['path'])
+            candidate_paths = {r['path'] for r in visible}
+            for row in visible:       # a repository inside this candidate that is also a candidate of its own
+                for repo in row['git']['repositories']:
+                    own = str(Path(row['path']) / repo['path']) if repo['path'] != '.' else None
+                    if own in candidate_paths:
+                        repo['also_candidate'] = own
+            git_links = gitinfo.links(inspected)
         return {'schema_version': 1, 'tool_version': TOOL_VERSION,
-            'status': 'partial' if self.stats['issues'] else 'complete_within_policy',
+            'status': 'partial' if self.stats['issues'] else 'complete_within_policy', 'stopped_by': self.stopped,
             'probability_kind': 'uncalibrated_heuristic_estimate',
             'probability_method': 'Independent profile scores/(scores+25), capped at 0.95; generic package.json alone stays unclassified. Alternatives can overlap and do not sum to one.',
             'root_probability_method': 'Manifest plus direct source: 0.97; manifest or plugin header: 0.90; Git marker: 0.80; source layout only: 0.55. These are estimates, not measured frequencies.',
@@ -547,14 +588,16 @@ class Finder:
                           'runtime_sha256': digest.hexdigest(), 'profile_count': len(self.registry.profiles),
                           'tool_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                           'prior_predictions_used_as_training_labels': False},
-            'policy': {'respect_gitignore': self.respect_gitignore, 'follow_symlinks': False,
+            'policy': {'respect_gitignore': self.respect_gitignore, 'follow_symlinks': False, 'git_inventory': self.git,
                        'execute_target_code': False, 'register_projects': False,
                        'include_archives': self.include_archives,
                        'include_installed_plugins': self.include_installed_plugins, 'exclude': list(self.exclude)},
-            'limits': self.limits, 'statistics': dict(self.stats), 'excluded': dict(self.exclusions),
-            'issues': self.issues, 'project_count': len(self.rows),
-            'projects': sorted(self.rows, key=lambda r: r['path']),
-            'limitations': ['Probabilities are heuristic estimates, not measured accuracy or certification.',
+            'limits': self.limits, 'statistics': {**self.stats, **({'hidden_below_min_probability': hidden} if self.min_probability else {})},
+            'excluded': dict(self.exclusions), 'min_probability': self.min_probability,
+            'issues': self.issues, 'project_count': len(visible),
+            'projects': sorted(visible, key=lambda r: r['path']),
+            **({'git_links': git_links} if git_links is not None else {}),
+            'limitations': ['Git inventory (--git) executes the git binary with the repository configuration neutralised; remote URLs and commit subjects are untrusted project text.'] * bool(self.git) + ['Probabilities are heuristic estimates, not measured accuracy or certification.',
                 'Nested roots own their evidence; a parent is not classified from dependency/child source.',
                 'Source sampling is bounded. Unvisited/ignored/generated/dependency trees are not certified empty.',
                 'Lexical masks reduce comment/literal matches; aliases and type binding remain unresolved. Dependencies do not prove runtime use.',
@@ -571,6 +614,10 @@ def render_table(doc):
         lines.append(f"{r['root_probability']:6.0%}  {r['type']['probability']:6.0%}  {r['type']['name'][:35]:35}  {stack[:23]:23}  {path}")
     if doc['issues']:
         lines += ['', f"Partial coverage: {doc['statistics']['issues']} issues/limits; use --format json for details."]
+    if doc.get('stopped_by'):
+        lines.append(f"Stopped early at {doc['stopped_by']['reason']} (last directory: {doc['stopped_by']['last_directory']}).")
+    if doc.get('min_probability'):
+        lines.append(f"Showing candidates with root probability >= {doc['min_probability']:.2f}; {doc['statistics'].get('hidden_below_min_probability', 0)} hidden.")
     return '\n'.join(lines) + '\n'
 
 

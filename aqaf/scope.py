@@ -19,6 +19,8 @@ from .projects import node_for,graph,archived,marker_family,safe_relative,MAX_PR
 LEGACY_SKIP={'.git','.hg','.svn','node_modules','.venv','venv','__pycache__','dist','build','.next','.gradle','target','vendor'}
 HARD_SKIP={'.git','.hg','.svn'}
 DEPENDENCIES={'node_modules','vendor','.pnpm-store','.npm','.nuget','.rustup','.tox','.nox','.eggs','site-packages','.intellijPlatform','.rustup'}
+# A project that declares one of these build tools emits its compiled bundles into out/ (electron-vite, electron-forge).
+BUILD_TOOL_CONFIG=r'(?:electron\.vite\.config|forge\.config)\.(?:[cm]?[jt]s)'
 GENERATED={'__pycache__','dist','build','.next','.gradle','target','.nuxt','.svelte-kit','.kotlin','.cxx','TestResults','.build','.swiftpm','CMakeFiles','.vs'}
 METADATA={'.DS_Store','Thumbs.db','desktop.ini'}
 LANGUAGES={'.js':'javascript','.mjs':'javascript','.cjs':'javascript','.ts':'typescript','.mts':'typescript','.cts':'typescript',
@@ -262,7 +264,9 @@ class Scope:
                 elif matches(rp,self.exclude):reason='operator_exclude'
                 elif not reason and is_dir:
                     if self.policy=='legacy':reason='legacy_directory' if entry.name in LEGACY_SKIP or entry.name.startswith('.cache') else None
-                    else:reason=folder_reason(rp,entry.name,families)
+                    else:
+                        reason=folder_reason(rp,entry.name,families)
+                        if not reason and entry.name=='out' and any(re.fullmatch(BUILD_TOOL_CONFIG,e.name) for e in entries):reason='generated_framework_build_output'
                 if is_dir:
                     if reason and reason not in {'gitignore','operator_exclude','vcs_metadata'} and self._can_descend_include(rp):
                         children.append((path,rules,families,reason));continue

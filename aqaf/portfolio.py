@@ -121,7 +121,7 @@ def explanation(document,model=None):
     return {**envelope,'model_used':True,'explanation':result,'state':'unconfirmed_model_explanation','tools_enabled':False}
 
 
-def local_model(url,model_name):
+def local_model(url,model_name,timeout=30,think=None):
     """Explicit loopback-only Ollama-compatible adapter, never enabled implicitly."""
     from urllib.parse import urlsplit
     from urllib.request import Request,build_opener,ProxyHandler,HTTPRedirectHandler
@@ -132,13 +132,21 @@ def local_model(url,model_name):
     if parsed.scheme!='http' or not loopback or parsed.username or parsed.password or parsed.fragment:
         raise ValueError('Use an explicit numeric loopback HTTP endpoint without credentials')
     if not model_name or len(model_name)>256:raise ValueError('Choose a local model name')
+    if type(timeout) not in (int,float) or not 5<=timeout<=600:raise ValueError('Model timeout must be between 5 and 600 seconds')
     class NoRedirect(HTTPRedirectHandler):
         def redirect_request(self,*args,**kwargs):raise ValueError('Local model redirects are disabled')
     def generate(prompt):
-        data=json.dumps({'model':model_name,'prompt':prompt,'stream':False}).encode()
+        payload={'model':model_name,'prompt':prompt,'stream':False}
+        if think is not None:payload['think']=bool(think)
+        data=json.dumps(payload).encode()
         if len(data)>1000000:raise ValueError('Select less evidence for the local model')
         request=Request(url,data=data,headers={'Content-Type':'application/json'},method='POST')
-        with build_opener(ProxyHandler({}),NoRedirect()).open(request,timeout=30) as response:raw=response.read(1000001)
+        try:
+            with build_opener(ProxyHandler({}),NoRedirect()).open(request,timeout=timeout) as response:raw=response.read(1000001)
+        except (TimeoutError,OSError) as error:
+            if 'timed out' in str(error) or isinstance(error,TimeoutError):
+                raise ValueError(f'Local model {model_name} did not answer within {timeout} s; raise --timeout (up to 600) or use --no-think for thinking models, or choose a smaller model') from error
+            raise
         if len(raw)>1000000:raise ValueError('Local model response exceeds budget')
         answer=json.loads(raw)
         return answer.get('response','')

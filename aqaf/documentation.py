@@ -7,6 +7,7 @@ import unicodedata
 from pathlib import Path,PurePosixPath
 from urllib.parse import unquote,urlsplit
 from .scope import Scope
+from .unknowns import docs_unknowns
 
 
 def markdown_body(text):
@@ -205,6 +206,6 @@ def check(root,scope=None,generated_routes=(),audience=None):
             'score_effect':'none','certification':False,'coverage':{'documents_selected':len(all_docs),'documents_read':len(texts),'max_documents':2048,'max_document_bytes':16000000,'max_document_file_bytes':262144},'documents':evidence,'duplicate_documents':duplicates,'interfaces':interface,'interface_unknowns':unknown,
             'capabilities':capabilities,'findings':findings,'backlog':[{'id':f['id'],'action':f['action'],'evidence':{'path':f['path'],'sha256':f['sha256']},'state':f['state'],'priority':f['priority']} for f in findings],
             'applicability':[{'facet':facet,'reader':reader,'state':'not_applicable' if audience and audience!=reader else 'inferred' if facet in present else 'unknown'} for facet,(reader,*_) in EXPECTATIONS.items()],
-            'scope':scope.report(),'limitations':['Static bounded registrations only; dynamic interfaces and runtime claims require verification.','Document presence and term matches do not establish correctness or readability.','Renderer-specific anchors and complex Markdown remain reviewable unknowns.']}
+            'scope':scope.report(),'unknown_summary':docs_unknowns({'interface_unknowns':unknown,'applicability':[{'facet':facet,'reader':reader,'state':'not_applicable' if audience and audience!=reader else 'inferred' if facet in present else 'unknown'} for facet,(reader,*_) in EXPECTATIONS.items()]}),'limitations':['Static bounded registrations only; dynamic interfaces and runtime claims require verification.','Document presence and term matches do not establish correctness or readability.','Renderer-specific anchors and complex Markdown remain reviewable unknowns.']}
     finally:
         if owned:scope.cache.close()
