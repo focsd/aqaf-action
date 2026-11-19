@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "id": "jvm_app",
+  "name": "JVM Application or Library (Java/Kotlin)",
+  "product_type": "web",
+  "target_architecture": "Layered or modular build (Maven/Gradle modules) with domain code free of framework types, explicit configuration, and unit plus integration tests in CI.",
+  "packs": [
+    "web"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "pom.xml",
+      "weight": 10
+    },
+    {
+      "kind": "file",
+      "value": "build.gradle",
+      "weight": 8
+    },
+    {
+      "kind": "file",
+      "value": "build.gradle.kts",
+      "weight": 8
+    },
+    {
+      "kind": "file",
+      "value": "settings.gradle",
+      "weight": 4
+    },
+    {
+      "kind": "file",
+      "value": "settings.gradle.kts",
+      "weight": 4
+    },
+    {
+      "kind": "extension",
+      "value": ".java",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".kt",
+      "weight": 4
+    }
+  ],
+  "quality_priorities": [
+    "module boundaries",
+    "framework isolation",
+    "configuration",
+    "test layering"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Language-level fallback. Android projects are classified by their own profile, which carries heavier signals.",
+  "fallback": true
+}

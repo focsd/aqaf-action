@@ -25,12 +25,25 @@ def _metadata():
 
 
 SKIP_DIRS = {'.git', '.hg', '.svn', 'node_modules', '.venv', 'venv', '__pycache__', 'dist', 'build', '.next', '.gradle', 'target', 'vendor'}
-CODE_EXTS = {'.gs','.py','.js','.jsx','.ts','.tsx','.php','.java','.kt','.kts','.cs','.go','.rs','.swift','.m','.mm','.cpp','.c','.h'}
+CODE_EXTS = {'.gs','.py','.js','.jsx','.ts','.tsx','.php','.java','.kt','.kts','.cs','.go','.rs','.swift','.m','.mm','.cpp','.c','.h',
+             '.cc','.cxx','.hpp','.rb','.ex','.exs','.erl','.hrl','.hs','.ml','.mli','.lua','.clj','.cljs','.cljc','.jl','.pl','.pm','.r',
+             '.zig','.scala','.nim','.dart','.groovy'}
+# Shell and PowerShell scripts count as code only when a project has several of them (an awesome-list with one install script is content).
+SCRIPT_EXTS = {'.sh','.bash','.zsh','.ps1','.psm1'}
+TEST_DIR = re.compile(r'(^|/)(tests?|__tests__|specs?|testing)/')
+TEST_NAME = re.compile(r'(test_|_tests?\.|\.spec\.|\.test\.|_spec\.|-tests?\.|tests?\.(?:java|kt|cs|swift|php|rb|scala)$|\.t$)')
+def is_test_path(path):
+    text=str(path).replace('\\','/').lower()
+    return bool(TEST_DIR.search(text) or TEST_NAME.search(text.rsplit('/',1)[-1]) or text.startswith('t/') and text.endswith('.t'))
 SECRET_PATTERNS = [
     re.compile(r'(?i)(api[_-]?key|secret|token|password)\s*[=:]\s*["\'][^"\']{8,}["\']'),
     re.compile(r'AKIA[0-9A-Z]{16}'),
     re.compile(r'(?i)-----BEGIN (RSA|OPENSSH|PRIVATE) KEY-----'),
 ]
+ARCH_DOC = re.compile(r'(?i)(?:^|/)(?:adrs?|architecture|design|decisions?|rfcs?|arch)(?:/|[-_.])|(?:^|/)(?:adr|architecture|design|decisions?|rfcs?)[-_a-z0-9]*\.(?:md|adoc|rst|txt)$|architecture')
+CI_PATH = re.compile(r'(?i)(?:^|/)(?:\.github/workflows/[^/]+\.ya?ml|\.gitlab-ci\.ya?ml|gitlab-ci\.ya?ml|\.circleci/config\.yml|circle\.yml|azure-pipelines[^/]*\.ya?ml|'
+                     r'\.azure-pipelines/|Jenkinsfile[^/]*|\.travis\.ya?ml|bitbucket-pipelines\.ya?ml|\.drone\.ya?ml|\.woodpecker(?:\.ya?ml|/)|\.buildkite/|appveyor\.ya?ml|\.appveyor\.ya?ml|'
+                     r'\.cirrus\.ya?ml|\.gitea/workflows/|\.forgejo/workflows/|cloudbuild\.ya?ml|\.teamcity/|\.builds/[^/]+\.ya?ml|codemagic\.ya?ml|bitrise\.ya?ml|\.semaphore/)')
 AI_TERMS = ['ollama','openai','anthropic','langchain','llama','whisper','embedding','rag','prompt','model_name']
 WP_TERMS = ['add_action','add_filter','register_activation_hook','woocommerce','wp_enqueue_script']
 
@@ -86,6 +99,156 @@ def unknown_component_message(component,scope,limit=20):
     return message
 
 
+NPM_ENTRY_KEYS=('exports','main','bin','module','types','typings','browser')
+# Keys that never declare an entrypoint, so a path inside them is not one (for example a build script or a files list).
+NPM_METADATA_KEYS={'scripts','files','directories','repository','bugs','funding','devDependencies','dependencies','peerDependencies','optionalDependencies',
+                   'bundledDependencies','bundleDependencies','overrides','resolutions','engines','config','publishConfig','husky','lint-staged','jest','ava',
+                   'eslintConfig','prettier','babel','browserslist','nyc','c8','keywords','contributors','author','maintainers','workspaces','pnpm','volta'}
+NPM_ENTRY_FILE=re.compile(r'^(?:\./)?(?:dist|lib|build|out|src|esm|cjs)/[^\s]+\.(?:c|m)?[jt]sx?$')
+
+
+def _declares_custom_entrypoint(value):
+    if isinstance(value,str):return bool(NPM_ENTRY_FILE.match(value))
+    if isinstance(value,list):return any(_declares_custom_entrypoint(v) for v in value[:200])
+    if isinstance(value,dict):return any(_declares_custom_entrypoint(v) for v in list(value.values())[:200])
+    return False
+
+
+NPM_ENTRY_SIBLINGS={'index.js','ng-package.json'}  # npm's default main is index.js; ng-packagr reads the entry from ng-package.json
+
+
+def _declares_entrypoint(pkg,siblings=()):
+    """A standard entry key, an implicit entry file next to the manifest, or a tool-specific key
+    (n8n.nodes, pi.extensions, oclif.commands ...) that points at a built file."""
+    if any(pkg.get(k) for k in NPM_ENTRY_KEYS) or NPM_ENTRY_SIBLINGS & set(siblings):return True
+    return any(k not in NPM_METADATA_KEYS and k not in NPM_ENTRY_KEYS and isinstance(v,(dict,list)) and _declares_custom_entrypoint(v) for k,v in pkg.items())
+
+
+NPM_NON_LIBRARY_DIRS={'example','examples','demo','demos','sample','samples','template','templates','boilerplate','dapps','apps','app','docs','website','e2e','test','tests','fixtures','playground','playgrounds'}
+NPM_WORKSPACE_MARKERS=('pnpm-workspace.yaml','lerna.json','nx.json','turbo.json')
+
+
+def _package_json(p,read):
+    try:
+        data=json.loads(read(p))
+        return data if isinstance(data,dict) else None
+    except ValueError:
+        return None
+
+
+def _workspace_globs(root_pkg,files,root,read):
+    """Workspace member globs declared by package.json or pnpm-workspace.yaml; empty when none can be read."""
+    ws=root_pkg.get('workspaces')
+    globs=list(ws) if isinstance(ws,list) else list(ws.get('packages',[])) if isinstance(ws,dict) else []
+    for p in files:
+        if p.parent==root and p.name=='pnpm-workspace.yaml':
+            globs+=[m.strip().strip('\'"') for m in re.findall(r'^\s*-\s*(\S+)\s*$',read(p),re.M) if not m.strip().startswith('!')]
+    return [g for g in globs if isinstance(g,str) and g and not g.startswith('!')]
+
+
+def _matches_glob(directory,glob):
+    pattern=re.escape(glob.strip('/')).replace(r'\*\*','.*').replace(r'\*','[^/]*')
+    return re.fullmatch(pattern,directory) is not None
+
+
+def npm_entrypoint_findings(files,root,read):
+    """AQ-NPM-001: a published package needs an entrypoint. Workspace roots and private packages are not libraries to
+    consume; for a workspace, a member declared by the workspace globs is judged on its own manifest only when it shows clear signs of being published
+    (version plus files or publishConfig) and does not sit in an example, app or template folder, because apps and examples are not libraries.
+    The root finding keeps its original evidence text so existing baselines and fingerprints stay valid."""
+    root_manifest=next((p for p in files if p.parent==root and p.name=='package.json'),None)
+    if root_manifest is None:
+        return []
+    pkg=_package_json(root_manifest,read)
+    if pkg is None:
+        return []
+    names={p.name for p in files if p.parent==root}
+    is_workspace=bool(pkg.get('workspaces')) or any(m in names for m in NPM_WORKSPACE_MARKERS)
+    out=[]
+    def finding(evidence):
+        return Finding('AQ-NPM-001','medium','No explicit library export or executable entrypoint detected',evidence,
+                       'Consumers may rely on ambiguous package entrypoints.',
+                       'Define an intentional public API entrypoint or command; test the packed tarball.','medium')
+    if is_workspace:
+        globs=_workspace_globs(pkg,files,root,read)
+        for p in sorted(files):
+            if p.name!='package.json' or p.parent==root:
+                continue
+            directory=rel(p.parent,root)
+            if not any(_matches_glob(directory,g) for g in globs):
+                continue
+            if NPM_NON_LIBRARY_DIRS & {part.lower() for part in directory.split('/')}:
+                continue
+            member=_package_json(p,read)
+            published=bool(member) and not member.get('private') and bool(member.get('version')) and bool(member.get('files') or member.get('publishConfig'))
+            if published and not _declares_entrypoint(member,{q.name for q in files if q.parent==p.parent}):
+                out.append(finding(f'{rel(p,root)} has none of exports, main, bin, module, types.'))
+        return out
+    if pkg.get('private') is True:
+        return out
+    if not _declares_entrypoint(pkg,names):
+        out.append(finding('package.json has none of exports, main, bin.'))
+    return out
+
+
+CI_DIRS = {'.github','.circleci','.gitea','.forgejo','.buildkite','.semaphore','.teamcity','.builds','.woodpecker','.azure-pipelines'}
+
+
+def probe_ci(directory):
+    """Existence check for well-known CI configuration in one directory, ignoring .gitignore and hidden-folder rules.
+    A tracked workflow is still CI when a broad ignore pattern such as '.*' hides it from the scan. Metadata only: no file is read."""
+    names=[]
+    try:
+        entries=list(os.scandir(directory))
+    except OSError:
+        return None
+    for e in entries:
+        names.append(e.name)
+        try:
+            is_dir=e.is_dir(follow_symlinks=False)
+        except OSError:
+            continue
+        if is_dir and e.name in CI_DIRS:
+            try:
+                for c in os.scandir(e.path):
+                    names.append(e.name+'/'+c.name)
+                    if c.name=='workflows' and c.is_dir(follow_symlinks=False):
+                        names.extend(e.name+'/workflows/'+w.name for w in os.scandir(c.path))
+            except OSError:
+                pass
+    return next((n for n in sorted(names) if CI_PATH.search(n)),None)
+
+
+def find_ci_in_folder(root):
+    """CI configuration inside the scanned folder that the scan did not collect (hidden by ignore rules)."""
+    hit=probe_ci(Path(root))
+    return hit+' (present in the scanned folder but not collected, for example hidden by a .gitignore pattern)' if hit else None
+
+
+def find_ci_in_enclosing_repository(root):
+    """For a scan of a subfolder: CI in a parent folder of the same repository (marked by .git). Informational only,
+    so that the result for a folder never depends on where the folder happens to sit."""
+    root=Path(root)
+    top=None
+    here=root
+    for _ in range(8):
+        if (here/'.git').exists():
+            top=here
+            break
+        if here.parent==here:
+            break
+        here=here.parent
+    if top is None or top==root:
+        return None
+    here=root
+    while here!=top:
+        here=here.parent
+        hit=probe_ci(here)
+        if hit:
+            return str(here/hit)
+    return None
+
+
 def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", capabilities=(), review_signals=False, respect_gitignore=True, scope_policy='typed', scope_config=None,
          inventory_all=False, component=None, review_options=None, session=None, review_knowledge=False):
     from .scope import Scope
@@ -127,7 +290,9 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
         'javascript' if {'.js','.jsx','.ts','.tsx'} & exts.keys() else None,
         'swift' if '.swift' in exts else None,'rust' if '.rs' in exts else None,
         'kotlin' if {'.kt','.kts'} & exts.keys() else None,
-        'php' if '.php' in exts else None,'csharp' if '.cs' in exts else None]
+        'php' if '.php' in exts else None,'csharp' if '.cs' in exts else None,
+        'go' if '.go' in exts else None,'java' if '.java' in exts else None,
+        'cpp' if {'.c','.cc','.cpp','.cxx','.h','.hpp'} & exts.keys() else None]
         if x})
     for c in capabilities:
         if not re.fullmatch(r'[a-z][a-z0-9_]{1,63}',c):
@@ -136,21 +301,25 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
     context = parent_context(root)
 
     # docs/ADRs
-    has_arch_docs = any('adr' in rel(p,root).lower() or 'architecture' in rel(p,root).lower() for p in files if p.suffix.lower() in {'.md','.adoc','.rst'})
+    has_arch_docs = any(ARCH_DOC.search(rel(p,root).replace('\\','/')) for p in files if p.suffix.lower() in {'.md','.adoc','.rst','.txt'})
     has_arch_docs = has_arch_docs or bool(context['architecture_files'])
     if not has_arch_docs:
-        findings.append(Finding('AQ-DOC-001','medium','No architecture decision records or architecture docs found',
+        findings.append(Finding('AQ-DOC-001','low','No architecture decision records or architecture docs found',
             'No files with ADR/architecture naming were found.',
             'Important architecture choices may be forgotten or repeatedly debated.',
             'Add docs/architecture and start recording important decisions with ADRs.', 'high'))
 
+
     # tests
-    test_files=[p for p in files if re.search(r'(^|/|\\)(tests?|__tests__)(/|\\)', str(p).lower()) or re.search(r'(test_|_test\.|\.spec\.|\.test\.)', p.name.lower())]
+    test_files=[p for p in files if is_test_path(rel(p,root))]
     inline_rust_tests = sum(rust_test_count(read(p)) for p in code if p.suffix.lower() == '.rs' and p not in test_files)
     test_evidence = len(test_files) + inline_rust_tests
     # One actual inline test is meaningful for a tiny crate; keep the size-based warning.
     minimum_tests = max(1 if inline_rust_tests else 3, len(code)//50)
-    if test_evidence==0:
+    content_only=not code and sum(1 for p in files if p.suffix.lower() in SCRIPT_EXTS)<3
+    if content_only:
+        pass  # documentation/configuration-only selection: a missing test suite says nothing about source that was not selected
+    elif test_evidence==0:
         findings.append(Finding('AQ-TST-001','high','No tests detected',
             'No conventional test files or test directories were found.',
             'Architecture refactoring becomes risky because behavior is not protected.',
@@ -162,25 +331,32 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
             'Add tests for the modules affected by upcoming architecture work.', 'medium'))
 
     # CI
-    has_ci=any('.github/workflows' in rel(p,root).lower() or p.name.lower() in {'gitlab-ci.yml','.gitlab-ci.yml','circle.yml'} for p in files)
-    if not has_ci:
+    has_ci=any(CI_PATH.search(rel(p,root).replace('\\','/')) for p in files)
+    if not has_ci and not content_only:
+        inside=find_ci_in_folder(root)
+        if inside:
+            has_ci=True
+            signals.append('CI configuration found but not collected: '+inside)
+        else:
+            parent=find_ci_in_enclosing_repository(root)
+            if parent:
+                signals.append('CI exists in the enclosing repository ('+parent+'); AQ-CI-001 describes the scanned folder only')
+    if not has_ci and not content_only:
         findings.append(Finding('AQ-CI-001','medium','No CI workflow detected',
             'No common CI configuration was found.',
             'New architecture regressions may be introduced without automated feedback.',
             'Add CI for tests, linting, and AQAF scan.', 'high'))
 
-    # secrets/config
-    secret_hits=[]
-    for p in code[:1000]:
-        txt=read(p)
-        for pat in SECRET_PATTERNS:
-            if pat.search(txt):
-                secret_hits.append(rel(p,root)); break
+    # secrets/config: production source only; placeholders, identifiers, tests, examples and vendored code are not reported.
+    from .secret_scan import scan_files
+    strong_hits,heuristic_hits,ignored_hits=scan_files((rel(p,root),read(p)) for p in code[:1000])
+    secret_hits=strong_hits+heuristic_hits
     if secret_hits:
-        findings.append(Finding('AQ-CFG-001','high','Possible hard-coded secret or sensitive config detected',
-            'Potential secret-like pattern in: '+', '.join(secret_hits[:10]),
+        note=f' ({ignored_hits} further match(es) in test, example or vendored files were not counted)' if ignored_hits else ''
+        findings.append(Finding('AQ-CFG-001','high' if strong_hits else 'medium','Possible hard-coded secret or sensitive config detected',
+            'Potential secret-like pattern in: '+', '.join(secret_hits[:10])+note,
             'Secrets in code can leak credentials and make deployment unsafe.',
-            'Move secrets/config to environment variables or a secret manager; rotate any exposed credentials.', 'medium'))
+            'Move secrets/config to environment variables or a secret manager; rotate any exposed credentials.', 'high' if strong_hits else 'medium'))
 
     # module boundaries
     module_dirs = [d for d in ['modules','features','domains','domain','application','infrastructure','adapters','services','src'] if (root/d).exists()]
@@ -347,21 +523,14 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
                         'Keep entrypoint thin and delegate to an injected service; verify actual function boundaries.', 'low'))
                     break
     if product == 'npm_library':
-        for p in files:
-            if p.parent==root and p.name=='package.json':
-                try:
-                    data=json.loads(read(p))
-                    if not any(data.get(k) for k in ('exports','main','bin')):
-                        findings.append(Finding('AQ-NPM-001','medium','No explicit library export or executable entrypoint detected',
-                            'package.json has none of exports, main, bin.',
-                            'Consumers may rely on ambiguous package entrypoints.',
-                            'Define an intentional public API entrypoint or command; test the packed tarball.', 'medium'))
-                except ValueError: pass
+        findings.extend(npm_entrypoint_findings(files,root,read))
 
     # score
-    score=100
+    score=100; breakdown=[]
     for f in findings:
-        score -= {'high':12,'medium':7,'low':3}.get(f.severity,5)
+        deduction={'high':12,'medium':7,'low':3}.get(f.severity,5)
+        score -= deduction
+        breakdown.append({'rule_id':f.rule_id,'severity':f.severity,'deduction':deduction})
     score=max(0,score)
     lang_summary={k:v for k,v in exts.most_common(15)}
     result={
@@ -371,7 +540,9 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
         'not_a_certification': True,
         'profile_confidence': detection_confidence,
         'detected_product_type': detected_product,
-        'limitations': ['Static structure and regex heuristics only', 'Does not execute target repository code', 'No measured runtime behavior, threat modeling, or performance tests', 'File absence is not proof a capability is absent', 'Index is not independently calibrated or certified'],
+        'limitations': ['Static structure and regex heuristics only', 'Does not execute target repository code', 'No measured runtime behavior, threat modeling, or performance tests', 'File absence is not proof a capability is absent', 'Index is not independently calibrated or certified']
+            + (['No source code files were selected: test, CI and other code-oriented rules were not applied, so the index reflects documentation and structure checks only'] if content_only else []),
+        'content_only':content_only,
         'root':str(root),
         'context_evidence': context,
         'product_type':product,
@@ -383,6 +554,7 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
         'declared_capabilities':sorted(set(capabilities)),
         'recommended_target_architecture':target,
         'score':score,
+        'score_breakdown':{'base':100,'deductions':breakdown,'floor':0},
         'files_scanned':len(files),
         'code_files':len(code),
         'extensions':lang_summary,
@@ -390,12 +562,17 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
         'findings':[f.to_dict() for f in findings]
     }
     # Methodological references are context, not validation or endorsement of detectors.
+    from . import maturity
     catalog, registry = _metadata()
     source_ids = set()
     for f in result['findings']:
         refs = catalog.get(f['rule_id'], {}).get('source_ids', [])
         f['source_ids'] = refs
+        f['maturity'] = maturity.finding_fields(catalog.get(f['rule_id'], {}))
+        f['rule_page'] = RULE_PAGE_BASE + f['rule_id'].lower() + '/'
+        f['standards'] = [{k: e[k] for k in ('standard','item','title','match')} for e in catalog.get(f['rule_id'], {}).get('standards', [])]
         source_ids.update(refs)
+    result['maturity_summary'] = maturity.summarise(result['findings'])
     result['source_registry'] = [
         {'id': sid, 'title': registry[sid]['title'], 'url': registry[sid]['url'], 'type': registry[sid]['type']}
         for sid in sorted(source_ids) if sid in registry
@@ -409,7 +586,7 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
         if node.get('profile_override'):
             reg.get_profile(node['profile_override']);child_profile=node['profile_override'];confidence='user-selected'
         node['classification']={'product_type':child_profile,'confidence':confidence,'signals':child_signals}
-        own_tests=[p for p in owned if re.search(r'(^|/)(tests?|__tests__)/|(?:test_|_test\.|\.test\.|\.spec\.)',p.relative_to(child_root).as_posix())]
+        own_tests=[p for p in owned if is_test_path(p.relative_to(child_root).as_posix())]
         own_docs=[p.relative_to(scope.root).as_posix() for p in owned if p.suffix.lower() in {'.md','.rst','.adoc'} and re.search(r'(?i)architecture|(?:^|/)adr(?:/|$)',p.relative_to(scope.root).as_posix())]
         parent_ids=set();parent=node.get('parent')
         while parent:
@@ -425,10 +602,14 @@ def scan(root: Path, profile: str = "auto", registry=None, pack: str = "auto", c
     if review_signals:
         from .review import review_files
         result['review'] = review_files(files, root, scope=scope, **(review_options or {}))
+    from .support_signals import signals_report
+    result['support_signals']=signals_report(files,root,product,len(code),read,content_only)
     result['scope']=scope_metadata
     result['scope']['analysis_root']=str(root)
     from .unknowns import scan_unknowns
     result['unknowns']=scan_unknowns(result)
+    from .score_coverage import coverage_adjusted
+    result.update(coverage_adjusted(result))
     result['scope']['selected_component']=component
     result['score_scope']='selected_container_source_not_an_average_of_children'
     result['assessment_state']='source_collected' if code else 'no_collected_core_code'
@@ -448,6 +629,8 @@ def md_report(r):
     lines.append(f"**Technologies:** {', '.join(r.get('technologies',[])) or 'not classified'}")
     lines.append(f"**Declared capabilities:** {', '.join(r.get('declared_capabilities',[])) or 'none'}")
     lines.append(f"**Provisional heuristic index:** {r['score']} / 100 (NOT a validated quality score or certification)")
+    if r.get('score_coverage_adjusted') is not None:
+        lines.append(f"**Coverage:** {r['coverage']['value']} ({r['coverage']['band']}); coverage-adjusted index {r['score_coverage_adjusted']} / 100 (shrunk toward 50 where AQAF assessed less)")
     lines.append(f"**Product classification:** {r['profile_confidence']} confidence; inferred {r['detected_product_type']}")
     lines.append(f"**Recommended target:** {r['recommended_target_architecture']}")
     lines.append(f"**Files scanned:** {r['files_scanned']} total, {r['code_files']} code files")
@@ -477,6 +660,9 @@ def md_report(r):
     lines.append('')
     lines.append('## Findings')
     lines.append('')
+    if r.get('maturity_summary'):
+        lines.append('Findings by rule maturity: '+', '.join(f"{k} {v}" for k,v in sorted(r['maturity_summary'].items()))+'. Experimental means the rule has no recorded measurement against labelled projects.')
+        lines.append('')
     if not r['findings']:
         lines.append('No major AQAF findings detected by the lightweight scanner. This does not mean the architecture is perfect; run language-specific tools and human review.')
     for i,f in enumerate(r['findings'],1):
@@ -485,6 +671,12 @@ def md_report(r):
         lines.append(f"- **Severity:** {f['severity']}")
         lines.append(f"- **Confidence:** {f['confidence']}")
         if f.get('source_ids'): lines.append(f"- **Foundational sources (not detector validation):** {', '.join(f['source_ids'])}")
+        if f.get('maturity'):
+            m=f['maturity']
+            measured=f"precision {m['precision']} (95% interval {m['precision_interval_95'][0]}-{m['precision_interval_95'][1]}, {m['labelled_sample']} labelled)" if m.get('precision') is not None else 'precision not measured'
+            lines.append(f"- **Rule maturity:** {m['level']} ({m['validation_status']}; false-positive risk {m['false_positive_risk']}; {measured})")
+        if f.get('rule_page'): lines.append(f"- **Rule page:** {f['rule_page']}")
+        if f.get('standards'): lines.append('- **Related standards (match strength; a partial or informative match is not a compliance claim):** ' + '; '.join(f"{e['standard'].replace('STD-','')} {e['item'] or ''} {e['title']} ({e['match']})".replace('  ',' ') for e in f['standards']))
         lines.append(f"- **Observed evidence:** {f['evidence']}")
         lines.append(f"- **Risk:** {f['risk']}")
         lines.append(f"- **Recommendation:** {f['recommendation']}")
@@ -535,6 +727,17 @@ def md_report(r):
         for limit in review['limitations']: lines.append('- ' + limit)
         lines.append('Review sources contextualize concerns, not detector accuracy or endorsement:')
         for source in review['source_registry']: lines.append(f"- {source['id']}: {source['title']} — {source['url']}")
+        lines.append('')
+    sup=r.get('support_signals')
+    if sup:
+        gaps=[x for x in sup['signals'] if x['status']=='absent']
+        na=sum(x['status']=='not_applicable' for x in sup['signals'])
+        lines.append('## Post-release support signals (unscored)')
+        lines.append(sup['note'])
+        lines.append('')
+        for x in gaps: lines.append(f"- **{x['id']} {x['name']}:** {x['evidence']}. Details: {x['rule_page']}")
+        if not gaps: lines.append('- No applicable signal is missing.')
+        lines.append(f"- Not applicable to this project: {na} of {len(sup['signals'])}.")
         lines.append('')
     lines.append('## Limitations')
     for limit in r['limitations']:
@@ -608,6 +811,24 @@ def add_baseline_diff(report, baseline_path):
     return report
 
 
+RULE_PAGE_BASE = 'https://aqaf.focsd.com/rules/'
+
+
+def sarif_taxonomies(catalog):
+    """SARIF toolComponents for the standards the catalogue cites, and per-rule relationships to their taxa."""
+    taxa, rel = {}, {}
+    for rid, rule in catalog.items():
+        for e in rule.get('standards', []):
+            comp = e['standard'].replace('STD-', '')
+            taxa.setdefault(comp, {})
+            if e.get('item'):
+                taxa[comp][e['item']] = e['title']
+                rel.setdefault(rid, []).append({'target': {'id': e['item'], 'toolComponent': {'name': comp}}, 'kinds': ['relevant'],
+                                                'properties': {'aqafMatch': e['match']}})
+    comps = [{'name': c, 'taxa': [{'id': i, 'name': t} for i, t in sorted(items.items())]} for c, items in sorted(taxa.items()) if items]
+    return comps, rel
+
+
 def sarif_report(r):
     # SARIF 2.1.0 subset; useful for IDE/CI ingestion. Most heuristic findings are not line-specific.
     results=[]
@@ -616,11 +837,18 @@ def sarif_report(r):
             'ruleId': f['rule_id'], 'level': {'high':'error','medium':'warning','low':'note'}.get(f['severity'],'note'),
             'message': {'text': f['title'] + '. Evidence: ' + f['evidence'] + '. Recommendation: ' + f['recommendation']},
             'partialFingerprints': {'primaryLocationLineHash': f['fingerprint']},
-            'properties': {'confidence': f['confidence'], 'baselineStatus': f.get('status','uncompared'), 'assessmentType': 'heuristic'},
+            'properties': {'confidence': f['confidence'], 'baselineStatus': f.get('status','uncompared'), 'assessmentType': 'heuristic',
+                           **({'aqafMaturity': f['maturity']['level'], 'aqafPrecision': f['maturity']['precision'], 'aqafLabelledSample': f['maturity']['labelled_sample']} if f.get('maturity') else {})},
         })
+    catalog, _ = _metadata()
+    comps, rel = sarif_taxonomies(catalog)
     return {'version':'2.1.0', '$schema':'https://json.schemastore.org/sarif-2.1.0.json', 'runs':[{
         'tool':{'driver':{'name':'AQAF', 'version':__version__,
-          'rules':[{'id': k, 'name':k, 'shortDescription':{'text':v[1]}} for k,v in RULE_META.items()]}},
+          'rules':[{'id': k, 'name':k, 'shortDescription':{'text':v[1]}, 'helpUri': RULE_PAGE_BASE + k.lower() + '/',
+                    **({'properties': {'aqafMaturity': catalog[k].get('maturity','experimental'), 'aqafValidationStatus': catalog[k].get('validation_status')}} if k in catalog else {}),
+                    **({'relationships': rel[k]} if k in rel else {})} for k,v in RULE_META.items()],
+          **({'supportedTaxonomies': [{'name': c['name']} for c in comps]} if comps else {})}},
+        **({'taxonomies': comps} if comps else {}),
         'results':results,
         'properties':{'disclaimer':'Heuristic architecture hints, not security findings or a validated score.',
                       **({'review_knowledge':r['review_knowledge']} if 'review_knowledge' in r else {}),
@@ -668,7 +896,7 @@ def main(argv=None):
     ap=argparse.ArgumentParser(description='AQAF local architecture scanner (heuristic, non-certifying)')
     ap.add_argument('repo', nargs='?', default='.', help='Repository path')
     ap.add_argument('--version', action='version', version='AQAF '+ __version__)
-    ap.add_argument('--format', choices=['md','json','sarif','all'], default='md')
+    ap.add_argument('--format', choices=['md','json','sarif','all','agent-tasks','agent-tasks-json'], default='md')
     ap.add_argument('--output','-o', default='-')
     ap.add_argument('--profile', default='auto', help='Registry profile ID; see `aqaf profiles list`')
     ap.add_argument('--pack', default='auto', help='Limit auto-detection to a pack; see `aqaf packs list`')
@@ -741,7 +969,11 @@ def main(argv=None):
         except (ValueError,OSError) as exc:ap.error(str(exc))
         print('Wrote report.json, report.md and report.sarif to '+args.output)
         return 2 if args.fail_on!='off' and any(f['status']=='new' and f['severity'] in ({'high'} if args.fail_on=='new-high' else {'high','medium'}) for f in r['findings']) else 0
-    out=json.dumps(r,indent=2) if args.format=='json' else json.dumps(sarif_report(r),indent=2) if args.format=='sarif' else md_report(r)
+    if args.format in ('agent-tasks','agent-tasks-json'):
+        from . import agent_tasks
+        out=json.dumps(agent_tasks.build(r),indent=2) if args.format=='agent-tasks-json' else agent_tasks.markdown(r)
+    else:
+        out=json.dumps(r,indent=2) if args.format=='json' else json.dumps(sarif_report(r),indent=2) if args.format=='sarif' else md_report(r)
     if args.output=='-': print(out)
     else:
         dest=Path(args.output)

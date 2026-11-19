@@ -26,7 +26,42 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-ARC42",
+        "item": "09",
+        "title": "Architecture Decisions",
+        "match": "partial",
+        "checked_on": "2026-11-18",
+        "note": "arc42 section 9 records architecture decisions; the rule only checks that decision or architecture documents exist"
+      },
+      {
+        "standard": "STD-MADR",
+        "item": null,
+        "title": "Markdown Architectural Decision Records",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "a common format for the decision records the rule looks for"
+      },
+      {
+        "standard": "STD-CWE",
+        "item": "CWE-1059",
+        "title": "Insufficient Technical Documentation",
+        "match": "partial",
+        "checked_on": "2026-11-18",
+        "note": "weakness class for missing technical documentation; the rule is limited to architecture decisions"
+      },
+      {
+        "standard": "STD-ISO-42010",
+        "item": null,
+        "title": "Architecture description",
+        "match": "informative",
+        "checked_on": null,
+        "note": "concept of documenting an architecture for stakeholders; text not consulted"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-DEP-001",
@@ -60,7 +95,18 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-ISO-25010",
+        "item": "Modularity",
+        "title": "Maintainability sub-characteristic",
+        "match": "informative",
+        "checked_on": null,
+        "note": "dependency direction supports modularity; text not consulted"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-MOD-001",
@@ -93,7 +139,26 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-ARC42",
+        "item": "05",
+        "title": "Building Block View",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "the structure the rule expects to see as directories"
+      },
+      {
+        "standard": "STD-ISO-25010",
+        "item": "Modularity",
+        "title": "Maintainability sub-characteristic",
+        "match": "informative",
+        "checked_on": null,
+        "note": "text not consulted"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-TST-001",
@@ -121,7 +186,18 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-ISO-25010",
+        "item": "Testability",
+        "title": "Maintainability sub-characteristic",
+        "match": "informative",
+        "checked_on": null,
+        "note": "text not consulted"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-CFG-001",
@@ -151,7 +227,34 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-CWE",
+        "item": "CWE-798",
+        "title": "Use of Hard-coded Credentials",
+        "match": "direct",
+        "checked_on": "2026-11-18",
+        "note": "the rule reports hard-coded credential-shaped literals in production source"
+      },
+      {
+        "standard": "STD-12FACTOR",
+        "item": "III",
+        "title": "Config",
+        "match": "partial",
+        "checked_on": "2026-11-18",
+        "note": "store configuration in the environment; the rule covers secrets, not all configuration"
+      },
+      {
+        "standard": "STD-ASVS",
+        "item": "13.3.1",
+        "title": "Secrets management solution (V13.3 Secret Management)",
+        "match": "partial",
+        "checked_on": "2026-11-18",
+        "note": "ASVS requires a secrets management solution; the rule only detects secrets in source"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-OBS-001",
@@ -183,7 +286,42 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-12FACTOR",
+        "item": "XI",
+        "title": "Logs",
+        "match": "partial",
+        "checked_on": "2026-11-18",
+        "note": "treat logs as event streams; the rule checks that operational code logs and handles errors"
+      },
+      {
+        "standard": "STD-ASVS",
+        "item": "16.2",
+        "title": "General Logging (V16.2)",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "general logging requirements; the rule does not check log content"
+      },
+      {
+        "standard": "STD-ASVS",
+        "item": "16.5.3",
+        "title": "Fails gracefully and securely (V16.5 Error Handling)",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "explicit error handling is a precondition; the rule does not check failure behaviour"
+      },
+      {
+        "standard": "STD-CWE",
+        "item": "CWE-778",
+        "title": "Insufficient Logging",
+        "match": "partial",
+        "checked_on": "2026-11-18",
+        "note": "weakness class for missing logging of security-relevant events; the rule is broader and coarser"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-DATA-001",
@@ -213,7 +351,18 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-12FACTOR",
+        "item": "XII",
+        "title": "Admin processes",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "migrations run as one-off admin processes; the rule checks that migrations exist and ownership is explicit"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-WP-001",
@@ -240,7 +389,10 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [],
+    "no_external_standard": "platform handbook guidance only (S15); no cross-platform standard item found",
+    "maturity": "experimental"
   },
   {
     "id": "AQ-AND-001",
@@ -269,7 +421,10 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [],
+    "no_external_standard": "platform guidance only (S14); no cross-platform standard item found",
+    "maturity": "experimental"
   },
   {
     "id": "AQ-AI-001",
@@ -298,7 +453,10 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [],
+    "no_external_standard": "no established standard for prompt and model configuration was found",
+    "maturity": "experimental"
   },
   {
     "id": "AQ-CI-001",
@@ -328,7 +486,26 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-SCORECARD",
+        "item": "CI-Tests",
+        "title": "CI-Tests",
+        "match": "partial",
+        "checked_on": "2026-11-18",
+        "note": "Scorecard checks that merged changes run CI tests; the rule checks that CI configuration exists"
+      },
+      {
+        "standard": "STD-12FACTOR",
+        "item": "V",
+        "title": "Build, release, run",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "strict separation of build and run stages"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-SWIFT-001",
@@ -355,7 +532,10 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [],
+    "no_external_standard": "platform guidance only (S08, S09)",
+    "maturity": "experimental"
   },
   {
     "id": "AQ-SWIFT-002",
@@ -380,7 +560,18 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-ISO-25010",
+        "item": "Modularity",
+        "title": "Maintainability sub-characteristic",
+        "match": "informative",
+        "checked_on": null,
+        "note": "text not consulted"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-RUST-001",
@@ -405,7 +596,10 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [],
+    "no_external_standard": "language community guidance only (S10)",
+    "maturity": "experimental"
   },
   {
     "id": "AQ-RUST-002",
@@ -430,7 +624,18 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-CWE",
+        "item": "CWE-119",
+        "title": "Improper Restriction of Operations within the Bounds of a Memory Buffer",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "unsafe code can reintroduce memory-safety weaknesses; the rule flags unsafe blocks, not weaknesses"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-RUST-003",
@@ -455,7 +660,26 @@
     "status": "heuristic",
     "validation_status": "not_expert_calibrated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [
+      {
+        "standard": "STD-SCORECARD",
+        "item": "Vulnerabilities",
+        "title": "Vulnerabilities",
+        "match": "partial",
+        "checked_on": "2026-11-18",
+        "note": "Scorecard checks for known vulnerable dependencies; the rule asks whether an audit policy is visible"
+      },
+      {
+        "standard": "STD-ASVS",
+        "item": "15.2.1",
+        "title": "Components within documented update and remediation time frames (V15.2)",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "the rule does not check remediation time frames"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-EVO-001",
@@ -479,7 +703,10 @@
     "status": "manual",
     "validation_status": "not_automated",
     "false_positive_risk": "medium-to-high",
-    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold"
+    "reference_scope": "methodological inspiration; source does not endorse rule or numeric threshold",
+    "standards": [],
+    "no_external_standard": "internal governance rule about AQAF itself",
+    "maturity": "manual"
   },
   {
     "id": "AQ-EXT-001",
@@ -505,7 +732,18 @@
     "status": "heuristic",
     "validation_status": "synthetic_fixtures_only",
     "false_positive_risk": "medium",
-    "reference_scope": "Architecture guidance; does not validate heuristic accuracy"
+    "reference_scope": "Architecture guidance; does not validate heuristic accuracy",
+    "standards": [
+      {
+        "standard": "STD-CWE",
+        "item": "CWE-250",
+        "title": "Execution with Unnecessary Privileges",
+        "match": "informative",
+        "checked_on": "2026-11-18",
+        "note": "broad host permissions are an over-privilege risk; the rule checks permission breadth, not execution"
+      }
+    ],
+    "maturity": "experimental"
   },
   {
     "id": "AQ-GAS-001",
@@ -531,7 +769,10 @@
     "status": "heuristic",
     "validation_status": "synthetic_fixtures_only",
     "false_positive_risk": "medium",
-    "reference_scope": "Architecture guidance; does not validate heuristic accuracy"
+    "reference_scope": "Architecture guidance; does not validate heuristic accuracy",
+    "standards": [],
+    "no_external_standard": "platform guidance only; no standard item found",
+    "maturity": "experimental"
   },
   {
     "id": "AQ-NPM-001",
@@ -557,6 +798,25 @@
     "status": "heuristic",
     "validation_status": "synthetic_fixtures_only",
     "false_positive_risk": "medium",
-    "reference_scope": "Architecture guidance; does not validate heuristic accuracy"
+    "reference_scope": "Architecture guidance; does not validate heuristic accuracy",
+    "standards": [],
+    "no_external_standard": "package-manager convention (package.json entrypoints), not covered by the listed standards",
+    "known_false_positives": [
+      "Monorepo packages that are published from a subfolder with a build step the scanner cannot see.",
+      "Packages whose entrypoint is declared outside package.json (for example a bundler configuration).",
+      "Application-style packages that are not published but lack \"private\": true.",
+      "Angular libraries built with ng-packagr when ng-package.json is absent from the scan."
+    ],
+    "history": [
+      {
+        "version": "1.1.4 (unreleased)",
+        "change": "No longer raised for private packages or workspace roots; module, types and browser count as entrypoints; publishable workspace members are judged on their own (AQAF-054)."
+      },
+      {
+        "version": "1.1.4 (unreleased)",
+        "change": "Tool-specific manifest keys that point at built files (for example n8n.nodes, pi.extensions), an index.js next to the manifest (npm default main) and ng-package.json count as entrypoints, after a re-run on 1,000 pool projects showed plugin and Angular packages flagged."
+      }
+    ],
+    "maturity": "experimental"
   }
 ]

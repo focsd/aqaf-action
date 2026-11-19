@@ -1,0 +1,379 @@
+{
+  "schema_version": 1,
+  "note": "Unscored review signals for post-release support risk (AQAF-057) and AI-assisted code (AQAF-058). They never change score or score_breakdown. Each states when it applies; a project it does not apply to is reported as not_applicable, not as lacking.",
+  "signals": [
+    {
+      "id": "AQS-REL-001",
+      "name": "Released software should keep a changelog or release notes",
+      "category": "release hygiene",
+      "applies": "Projects that declare a publishable version (package.json, pyproject.toml, Cargo.toml, a gemspec, composer.json) and have at least 20 code files.",
+      "looks_for": "CHANGELOG, HISTORY, NEWS or RELEASES file at the root, or a docs/releases or docs/changelog path.",
+      "why": "Without a record of what changed between versions, every upgrade question becomes a support request.",
+      "remediation": "Keep a CHANGELOG.md that lists user-visible changes per version, including breaking changes.",
+      "standards": [
+        {
+          "standard": "STD-12FACTOR",
+          "item": "V",
+          "title": "Build, release, run",
+          "match": "informative",
+          "checked_on": null,
+          "note": "strict separation of releases suggests keeping a record of each release"
+        }
+      ],
+      "false_positive_classes": [
+        "Release notes kept only on a hosting service (for example GitHub Releases), which a repository scan cannot see.",
+        "Changelog generated at publish time."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-REL-002",
+      "name": "Libraries and APIs should state a compatibility and deprecation policy",
+      "category": "release hygiene",
+      "applies": "Profiles npm_library, php_package, ruby_gem or api_backend with at least 20 code files.",
+      "looks_for": "A mention of semantic versioning, deprecation or breaking changes in README, CHANGELOG, CONTRIBUTING or a docs Markdown file.",
+      "why": "Consumers cannot judge upgrade cost when the project never says what may change and how it signals removals.",
+      "remediation": "State the versioning scheme and how deprecations are announced, for example in the README or CHANGELOG.",
+      "standards": [],
+      "no_external_standard": "compatibility policy is a release-management convention; none of the mapped standards defines it",
+      "false_positive_classes": [
+        "Policy stated on a website outside the repository.",
+        "Policy implied by a version scheme such as calendar versioning."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-REL-003",
+      "name": "Large published libraries should ship migration or upgrade notes",
+      "category": "release hygiene",
+      "applies": "Profiles npm_library, php_package, ruby_gem or api_backend with at least 50 code files.",
+      "looks_for": "A MIGRATION, UPGRADE or UPGRADING file, or a docs path with migration or upgrad in its name.",
+      "why": "Major-version upgrades are the usual point where consumers file support requests.",
+      "remediation": "Add MIGRATING.md or an upgrade section per major version.",
+      "standards": [],
+      "no_external_standard": "no mapped standard defines upgrade notes",
+      "false_positive_classes": [
+        "Projects still on their first major version.",
+        "Migration steps held inside the changelog."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-REP-001",
+      "name": "Applications should commit a dependency lockfile",
+      "category": "reproducibility",
+      "applies": "Applications (not libraries) with a package.json, Cargo.toml with a binary, go.mod or a Python project, and at least 20 code files. Libraries are not asked: committing a lockfile for a library is debated.",
+      "looks_for": "package-lock.json, npm-shrinkwrap.json, yarn.lock, pnpm-lock.yaml, bun.lock, Cargo.lock, go.sum, poetry.lock, uv.lock, Pipfile.lock or a requirements file with pinned versions.",
+      "why": "Unpinned dependency resolution makes builds differ between machines and over time, which is hard to support after release.",
+      "remediation": "Commit the lockfile your package manager generates and install from it in CI.",
+      "standards": [
+        {
+          "standard": "STD-SCORECARD",
+          "item": "Pinned-Dependencies",
+          "title": "Pinned-Dependencies",
+          "match": "partial",
+          "checked_on": "2026-11-19",
+          "note": "the Scorecard check recommends committing lock files for applications; the signal checks only that one exists"
+        },
+        {
+          "standard": "STD-12FACTOR",
+          "item": "II",
+          "title": "Dependencies",
+          "match": "partial",
+          "checked_on": null,
+          "note": "declare and isolate dependencies; a lockfile is one way to make that exact"
+        }
+      ],
+      "false_positive_classes": [
+        "Workspace or monorepo roots whose lockfile lives in a parent directory outside the scan.",
+        "Pinned versions in a requirements file the scanner does not parse."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-OWN-001",
+      "name": "Larger projects should name their owners",
+      "category": "ownership",
+      "applies": "Projects with at least 50 code files.",
+      "looks_for": "CODEOWNERS (root, .github or docs), MAINTAINERS, OWNERS, or an AUTHORS/GOVERNANCE file.",
+      "why": "When nobody is named, reviews and incident reports have no destination.",
+      "remediation": "Add a CODEOWNERS or MAINTAINERS file listing who answers for which area.",
+      "standards": [
+        {
+          "standard": "STD-SCORECARD",
+          "item": "Maintained",
+          "title": "Maintained",
+          "match": "informative",
+          "checked_on": "2026-11-19",
+          "note": "the Scorecard check looks at recent activity, not at named owners; related only"
+        }
+      ],
+      "false_positive_classes": [
+        "Single-maintainer projects where the README names the maintainer.",
+        "Ownership recorded in a hosting-service team setting."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-OWN-002",
+      "name": "Distributed software should publish a security policy",
+      "category": "ownership and security",
+      "applies": "Projects that declare a publishable version and have at least 20 code files.",
+      "looks_for": "SECURITY.md (case-insensitive) at the root, in .github or in docs.",
+      "why": "Without a stated way to report a vulnerability, reports go to public issues or nowhere.",
+      "remediation": "Add SECURITY.md with a private reporting contact and the supported versions.",
+      "standards": [
+        {
+          "standard": "STD-SCORECARD",
+          "item": "Security-Policy",
+          "title": "Security-Policy",
+          "match": "direct",
+          "checked_on": "2026-11-19",
+          "note": "the Scorecard Security-Policy check looks for a SECURITY.md file; this signal does the same"
+        }
+      ],
+      "false_positive_classes": [
+        "Organisation-wide policy inherited from a .github repository that the scan cannot see."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-OWN-003",
+      "name": "Larger projects should state contribution rules",
+      "category": "ownership",
+      "applies": "Projects with at least 50 code files.",
+      "looks_for": "CONTRIBUTING (root, .github or docs).",
+      "why": "Contributors and agents guess at conventions when none are stated, which creates review churn.",
+      "remediation": "Add CONTRIBUTING.md covering how to build, test and submit a change.",
+      "standards": [],
+      "no_external_standard": "contribution guides are a community convention; no mapped standard defines them",
+      "false_positive_classes": [
+        "Projects that do not accept outside contributions.",
+        "Rules held in an organisation-level repository."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-OPS-001",
+      "name": "Services should have runbook or operations notes",
+      "category": "operations",
+      "applies": "Profiles saas_or_web_app, api_backend, ai_pipeline or scraper_data_pipeline with at least 20 code files.",
+      "looks_for": "A RUNBOOK, OPERATIONS, DEPLOY, DEPLOYMENT, ONCALL or PLAYBOOK file, or a docs/runbook, docs/ops, docs/operations or docs/deploy path.",
+      "why": "Whoever supports the service after release needs to know how to start, check, roll back and diagnose it.",
+      "remediation": "Add a short runbook: how to deploy, how to check health, how to roll back, where logs go.",
+      "standards": [
+        {
+          "standard": "STD-12FACTOR",
+          "item": "XII",
+          "title": "Admin processes",
+          "match": "informative",
+          "checked_on": null,
+          "note": "one-off admin tasks should be documented and repeatable; related background"
+        }
+      ],
+      "false_positive_classes": [
+        "Operations documentation kept in a wiki or another repository.",
+        "Internal prototypes with no operators."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-OPS-002",
+      "name": "Services should expose a health or readiness signal",
+      "category": "operations",
+      "applies": "Profiles saas_or_web_app or api_backend with at least 20 code files.",
+      "looks_for": "The words health, healthz, readyz, readiness or liveness in code or deployment configuration.",
+      "why": "Orchestrators, load balancers and operators need a standard way to tell whether the service works.",
+      "remediation": "Add a health endpoint that checks the service can reach what it depends on.",
+      "standards": [],
+      "no_external_standard": "no mapped standard defines a health endpoint",
+      "false_positive_classes": [
+        "Health checks provided by a platform or sidecar outside the repository.",
+        "Frameworks that register health endpoints through configuration the scan does not read."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-FORM-001",
+      "name": "Architecture should be described in a recognised form kept in the repository",
+      "category": "documentation form",
+      "applies": "Projects with at least 20 code files.",
+      "looks_for": "arc42 files or folders, ADR or MADR decision records (adr, adrs, decisions, doc/arch), C4 model files (workspace.dsl, *.c4, a c4 or structurizr folder), or an architecture document that cites one of these formats.",
+      "why": "A recognised format tells readers where to look and what is missing; free-form notes drift.",
+      "remediation": "Pick one format (for example ADRs for decisions and a short arc42 or C4 overview) and keep it next to the code.",
+      "standards": [
+        {
+          "standard": "STD-ARC42",
+          "item": "09",
+          "title": "Architecture Decisions",
+          "match": "partial",
+          "checked_on": "2026-11-18",
+          "note": "arc42 section 9 holds decisions; the signal only recognises that a known format is present"
+        },
+        {
+          "standard": "STD-MADR",
+          "item": null,
+          "title": "Markdown Architectural Decision Records",
+          "match": "informative",
+          "checked_on": null,
+          "note": "a common format for decision records"
+        },
+        {
+          "standard": "STD-C4",
+          "item": null,
+          "title": "C4 model",
+          "match": "informative",
+          "checked_on": null,
+          "note": "a common notation for architecture diagrams"
+        }
+      ],
+      "false_positive_classes": [
+        "Architecture kept in a wiki or design tool outside the repository.",
+        "Documents in a recognised format with unusual file names."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-AI-001",
+      "name": "Repositories worked on with AI assistants should carry agent instructions",
+      "category": "AI-assisted code",
+      "applies": "Projects with at least 20 code files.",
+      "looks_for": "AGENTS.md, CLAUDE.md, GEMINI.md, CONVENTIONS.md, .cursorrules, .windsurfrules, .clinerules, .cursor/rules/*, .github/copilot-instructions.md or .claude/*.md.",
+      "why": "Assistants and agents guess at build commands, layout and rules when none are written down, and repeat the same mistakes.",
+      "remediation": "Add an AGENTS.md that states how to build and test, where code lives, and what must not change.",
+      "standards": [],
+      "no_external_standard": "agent instruction files are a tooling convention; no mapped standard defines them",
+      "false_positive_classes": [
+        "Projects not worked on with AI assistants.",
+        "Instructions kept in a user-level or organisation-level file outside the repository."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-AI-002",
+      "name": "Agent instructions should match the repository layout",
+      "category": "AI-assisted code",
+      "applies": "Projects with an agent instruction file that names repository paths.",
+      "looks_for": "Backtick-quoted file and folder paths in the instruction files, checked against the scanned file list. Paths and bare names are also matched below any folder (crates, packages, apps); tokens without an extension whose first folder does not exist, hidden folders and node_modules are skipped; fewer than 2 unknown paths counts as consistent.",
+      "why": "Instructions that name files or folders that do not exist send agents to the wrong place and erode trust in the whole file.",
+      "remediation": "Update the instruction file when files move, or remove the stale paths.",
+      "standards": [],
+      "no_external_standard": "no mapped standard covers agent instructions",
+      "false_positive_classes": [
+        "Build outputs or generated folders (dist, build) that are ignored and so absent from the scan.",
+        "Paths that exist only after set-up, such as a local .env.",
+        "Paths in another repository of the same system.",
+        "Illustrative file names used as examples in the instructions (for example foo.ts)."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-AI-004",
+      "name": "Tests should assert something",
+      "category": "AI-assisted code",
+      "applies": "Projects with Python (test_*.py, *_test.py) or JavaScript/TypeScript (*.test.*, *.spec.*) test files.",
+      "looks_for": "Test files that define tests but contain no assert, expect, pytest.raises or equivalent.",
+      "why": "A test with no assertion passes whatever the code does, which gives false confidence during later changes.",
+      "remediation": "Add assertions that fail when the behaviour breaks, or delete the empty test.",
+      "standards": [],
+      "no_external_standard": "test quality is not defined by the mapped standards",
+      "false_positive_classes": [
+        "Smoke tests whose only check is that nothing throws.",
+        "Assertions made in shared helpers imported from another file.",
+        "Test frameworks with assertion styles the scanner does not recognise."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-AI-005",
+      "name": "Agent and prompt files should not hold secrets or internal endpoints",
+      "category": "AI-assisted code",
+      "applies": "Projects with agent instruction, MCP, .cursor, .claude or prompt files.",
+      "looks_for": "Credential-like values (the AQ-CFG-001 precision rules) and internal hostnames or private-network URLs in those files. Values are never shown, only file names.",
+      "why": "Agent and prompt files are routinely committed, shared and sent to model providers, so secrets placed there leak.",
+      "remediation": "Move the value to the environment or a secret store and refer to it by name.",
+      "standards": [
+        {
+          "standard": "STD-CWE",
+          "item": "CWE-798",
+          "title": "Use of Hard-coded Credentials",
+          "match": "partial",
+          "checked_on": "2026-11-19",
+          "note": "the signal looks for credential-like values, but only in agent and prompt files"
+        }
+      ],
+      "false_positive_classes": [
+        "Example or placeholder values the precision rules do not recognise.",
+        "Documented public endpoints on private-looking names."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-AI-006",
+      "name": "Source should not repeat large blocks between files",
+      "category": "AI-assisted code",
+      "applies": "Projects with at least 20 code files.",
+      "looks_for": "Runs of 8 consecutive non-trivial lines that appear in more than one source file (at most 300 files, tests excluded). Fifty or more shared blocks counts as repetition; on a 300-repository sample the median count among repositories with any was 96, and the threshold is a guess, not calibrated.",
+      "why": "Generated code is often pasted rather than shared, so a fix has to be made in several places and one copy is missed.",
+      "remediation": "Extract the repeated block into a shared module and reuse it.",
+      "standards": [],
+      "no_external_standard": "duplication is covered by general maintainability guidance, not by an item in the mapped standards",
+      "false_positive_classes": [
+        "Generated or vendored source that is not in an ignored folder.",
+        "Boilerplate that a framework requires in every module.",
+        "Licence headers or repeated tables.",
+        "Mirrored copies kept by a sync or release script (for example vendored runtime copies of the same module)."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    },
+    {
+      "id": "AQS-AI-007",
+      "name": "Declared Python dependencies should not look like misspelled popular packages",
+      "category": "AI-assisted code",
+      "applies": "Projects that declare Python dependencies in requirements files or pyproject.toml. npm and other ecosystems are not covered.",
+      "looks_for": "Declared names that are not in a bundled, dated snapshot of the 8,000 most downloaded PyPI projects but differ from one by a single character (names of 7 or more characters). Everything else not in the snapshot is counted as unverified and not judged.",
+      "why": "Assistants sometimes invent or slightly misspell package names, and a squatted name can then be installed.",
+      "remediation": "Check each flagged name against the package index and correct the spelling.",
+      "standards": [],
+      "no_external_standard": "no mapped standard defines a package-name check",
+      "false_positive_classes": [
+        "Legitimate packages whose names differ by one character from a popular package.",
+        "Private or internal packages that happen to be near a public name.",
+        "Packages published after the snapshot date."
+      ],
+      "status": "review_signal",
+      "scored": false,
+      "validation_status": "prevalence_not_measured"
+    }
+  ]
+}

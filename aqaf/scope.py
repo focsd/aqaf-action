@@ -189,6 +189,37 @@ class Scope:
         self.graph={};self.source_plan=[];self.ambiguous_roots=[];self._ignored_rules=0
         self.include=self.config.get('include',[]);self.exclude=self.config.get('exclude',[])
 
+    def _promote_roots_with_nested_source(self):
+        """A manifest folder whose source sits deeper than its own folder, src, app or lib (Python or Java package folders,
+        namespace packages such as livekit/plugins/x/) is a project, not an ambiguous root. Decided after the walk, from the
+        source files that were actually collected under it. Only a declared member of an enclosing workspace is promoted: installed
+        or vendored packages that merely have a manifest (Unity's Library/PackageCache, themes, bundled libraries) stay ambiguous, as
+        does a manifest with no collected source below it."""
+        def declared(root):
+            for parent in self.nodes:
+                if parent['root']!='.' and not root.startswith(parent['root']+'/'):continue
+                relative=root if parent['root']=='.' else root[len(parent['root'])+1:]
+                if any(fnmatch.fnmatchcase(relative,pattern) for pattern in parent.get('workspace_patterns',[])):return True
+            return False
+        pending={a['root']:a for a in self.ambiguous_roots if a.get('_node') is not None and declared(a['root'])}
+        if pending:
+            languages=set(LANGUAGES.values());found=set()
+            for record in self.records:
+                if record['language'] not in languages:continue
+                parent=record['relative'].rpartition('/')[0]
+                while parent:
+                    if parent in pending:found.add(parent)
+                    parent=parent.rpartition('/')[0]
+            kept=[]
+            for entry in self.ambiguous_roots:
+                node=entry.pop('_node',None)
+                if node is not None and entry['root'] in found and len(self.nodes)<MAX_PROJECTS:
+                    node['promoted_by']='nested_source';self.nodes.append(node)
+                else:kept.append(entry)
+            self.ambiguous_roots=kept
+        else:
+            for entry in self.ambiguous_roots:entry.pop('_node',None)
+
     def _can_descend_include(self,relative):
         for pattern in self.include:
             prefix=re.split(r'[*?\[]',pattern,maxsplit=1)[0].rstrip('/')
@@ -200,6 +231,10 @@ class Scope:
         if len(self.exclusions)<2000:self.exclusions.append({'path':relative,'reason':reason,'kind':'directory' if directory else 'file',**({'evidence':evidence} if evidence else {})})
 
     def build(self):
+        self.tracked=self.tracked_dirs=None;self.tracked_status='not_consulted_gitignore_disabled'
+        if self.respect_gitignore:
+            from .gitindex import read_tracked
+            self.tracked,self.tracked_dirs,self.tracked_status=read_tracked(str(self.root))
         stack=[(self.root,[],set(),None)]
         while stack:
             directory,parent_rules,parent_families,inherited=stack.pop();relative=directory.relative_to(self.root).as_posix()
@@ -249,7 +284,7 @@ class Scope:
                     self.counts['manifests_read']+=len(node['evidence'])
                     if credible:
                         self.nodes.append(node);families.update(node['families'])
-                    elif len(self.ambiguous_roots)<512:self.ambiguous_roots.append({'root':relative,'families':node['families'],'evidence':node['evidence'],'reason':'marker_without_nearby_source','confidence':'low'})
+                    elif len(self.ambiguous_roots)<512:self.ambiguous_roots.append({'root':relative,'families':node['families'],'evidence':node['evidence'],'reason':'marker_without_nearby_source','confidence':'low','_node':node})
             elif not inherited:self.diagnostics.append({'path':relative,'reason':'project_discovery_limit'})
             children=[]
             for entry in entries:
@@ -259,7 +294,21 @@ class Scope:
                 if stat.S_ISLNK(info.st_mode):self.counts['symlinks_skipped']+=1;continue
                 is_dir=stat.S_ISDIR(info.st_mode)
                 ignored,ignore_ref=ignore_decision(rp,is_dir,rules) if self.respect_gitignore else (False,None)
-                reason=inherited
+                descent=inherited=='tracked_descent'
+                reason=None if descent else inherited
+                if self.tracked is not None and (ignored or descent):
+                    # A path Git tracks belongs to the public repository even when an ignore pattern matches it.
+                    if is_dir:
+                        if rp in self.tracked_dirs:
+                            fr=folder_reason(rp,entry.name,families) if self.policy=='typed' else None
+                            if fr and not self._can_descend_include(rp):self._excluded(rp,fr,True)
+                            else:children.append((path,rules,families,'tracked_descent'));self.counts['tracked_directories_entered']+=1
+                            continue
+                        ignored=True
+                    elif rp in self.tracked:
+                        if ignored or descent:self.counts['tracked_files_kept_despite_ignore']+=1
+                        ignored=False;ignore_ref=None
+                    else:ignored=True
                 if ignored:reason='gitignore'
                 elif matches(rp,self.exclude):reason='operator_exclude'
                 elif not reason and is_dir:
@@ -299,6 +348,7 @@ class Scope:
                     if inferred:record['language']=inferred;record['language_basis']='bounded_shebang'
                 self.records.append(record);self.by_path[path]=record;self.collected_extensions[path.suffix.lower()]+=1;self.role_counts[role]+=1
             stack.extend(reversed(children))
+        self._promote_roots_with_nested_source()
         if not self.nodes:self.nodes=[node_for(self.root,'.',[],self.cache.text,True)]
         for declared in self.config.get('projects',[]):
             relative=declared['root'];path=self.root/relative
@@ -391,7 +441,7 @@ class Scope:
             exclusions.append({**entry,'role':role,'owner':owner['id'],'confidence':'operator_selected' if reason=='operator_exclude' else 'heuristic_policy',
                 'policy_evidence':{'policy':self.policy,'owner_families':owner['families'],'reason_code':reason}})
         return {'selection_complete':self.selection_complete(),'operator_control':self.config_control,'selection_api_version':1,'unicode_display_collisions':collisions[:1000],'effective_config_sha256':hashlib.sha256(json.dumps(self.config,sort_keys=True).encode()).hexdigest(),'schema_version':1,'policy':self.policy,'respect_gitignore':self.respect_gitignore,
-                'gitignore_sources':self.ignore_sources,'gitignore_tracked_status':'not_consulted_patterns_apply_to_all_paths',
+                'gitignore_sources':self.ignore_sources,'gitignore_tracked_status':self.tracked_status if getattr(self,'tracked_status',None) else 'not_consulted_gitignore_disabled','gitignore_tracked_rule':'a path listed in .git/index is collected even when an ignore pattern matches it; without a usable index every pattern applies to every path',
                 'gitignore_scope':'authorized_root_and_descendants_only','physical_census_complete':self.inventory_all and not self.diagnostics and not self.counts['excluded_files:unreadable_metadata'],
                 'visited_regular_files':self._seen,'collected_files':len(self.files),'visited_extensions':dict(sorted(self.all_extensions.items())),
                 'collected_extensions':dict(sorted(self.collected_extensions.items())),'roles':dict(sorted(self.role_counts.items())),
@@ -402,4 +452,4 @@ class Scope:
                 'limitations':['Ownership and architecture are inferred from bounded static evidence, not verified intent.',
                                'Pruned subtrees have unknown descendant counts unless inventory_all was selected.',
                                'Source is read once per cache entry, not an atomic whole-repository snapshot; kit integrity is separate.',
-                               'Global gitignore, Git index tracked status, .git/info/exclude and patterns outside the authorized root are not read.']}
+                               'Global gitignore, .git/info/exclude and patterns outside the authorized root are not read. The Git index is read only to find tracked paths (never run Git).']}

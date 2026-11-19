@@ -1,7 +1,8 @@
-"""Bounded .gitignore matching without Git, shell execution, or index access.
+"""Bounded .gitignore matching without Git or shell execution.
 
-Patterns apply to scanned files regardless of tracked status. Only ignore files
-inside the authorized root are loaded; global Git config is never consulted.
+Patterns apply to untracked paths. The scope builder reads .git/index (aqaf/gitindex.py) so that tracked files
+stay visible; without a usable index every pattern applies to every path. Only ignore files inside the
+authorized root are loaded; global Git config is never consulted.
 """
 from __future__ import annotations
 from dataclasses import dataclass

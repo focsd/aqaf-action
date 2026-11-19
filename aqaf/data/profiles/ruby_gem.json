@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "ruby_gem",
+  "name": "Ruby Gem or Application",
+  "product_type": "web",
+  "target_architecture": "Gem or application with lib/ separated from bin/, a gemspec or Gemfile with pinned supports, specs run in CI, and RuboCop gates.",
+  "packs": [
+    "web"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "gemfile",
+      "weight": 8
+    },
+    {
+      "kind": "file",
+      "value": "rakefile",
+      "weight": 4
+    },
+    {
+      "kind": "path",
+      "value": ".gemspec",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".rb",
+      "weight": 8
+    }
+  ],
+  "quality_priorities": [
+    "gem layout",
+    "dependency pinning",
+    "spec coverage",
+    "style gates"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Language-level fallback that never outranks a non-fallback profile that matched.",
+  "fallback": true
+}

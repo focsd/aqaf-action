@@ -96,7 +96,7 @@ def node_for(directory,relative,names,read,root=False):
                 if value!='.':declared.append(value)
         if name.startswith('settings.gradle'):
             # Literal include calls only; no Gradle or arbitrary Kotlin evaluation.
-            for match in re.finditer(r'(?m)^\s*include\s*(?:\(([^\n)]*)\)|([^\n]+))',text):
+            for match in re.finditer(r'(?m)^\s*include\b\s*(?:\(([^\n)]*)\)|([^\n]+))',text):
                 declared.extend(x.lstrip(':').replace(':','/') for x in re.findall(r'["\']([^"\']+)["\']',match.group(1) or match.group(2)))
     if 'pnpm-workspace.yaml' in names:
         rp=('' if relative=='.' else relative+'/')+'pnpm-workspace.yaml';text=read(directory/'pnpm-workspace.yaml',65537)
@@ -108,7 +108,7 @@ def node_for(directory,relative,names,read,root=False):
     valid=[]
     for value in declared[:512]:
         if safe_relative(value):valid.append(value)
-        else:unknowns.append({'reason':'unsafe_workspace_path','path':relative})
+        else:unknowns.append({'reason':'unsafe_workspace_path','path':relative,'value':str(value)[:120]})
     return {'id':project_id(relative),'root':relative,'families':sorted(set(families)),'parent':None,
             'relationship':'registered_root' if root else 'inferred_project','confidence':'medium' if markers else 'low',
             'evidence':evidence,'workspace_patterns':sorted(set(valid)),'source_hints':declared_sources,

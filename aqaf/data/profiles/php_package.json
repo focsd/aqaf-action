@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "php_package",
+  "name": "PHP Package or Application",
+  "product_type": "web",
+  "target_architecture": "Composer package with a thin front controller, framework code separated from domain classes, PHPUnit tests and static analysis in CI.",
+  "packs": [
+    "web"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "composer.json",
+      "weight": 14
+    },
+    {
+      "kind": "file",
+      "value": "artisan",
+      "weight": 15
+    },
+    {
+      "kind": "file",
+      "value": "phpunit.xml",
+      "weight": 8
+    },
+    {
+      "kind": "file",
+      "value": "phpunit.xml.dist",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".php",
+      "weight": 8
+    }
+  ],
+  "quality_priorities": [
+    "composer metadata",
+    "framework isolation",
+    "test suite",
+    "static analysis"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Language-level fallback that never outranks a non-fallback profile that matched. WordPress plugins are matched by their own profile.",
+  "fallback": true
+}

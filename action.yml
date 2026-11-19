@@ -1,6 +1,6 @@
 name: 'AQAF Architecture Review'
 description: 'Run a local, non-certifying heuristic architecture scan; outputs report artifacts.'
-author: 'AQAF contributors'
+author: 'Dausuva Labs'
 inputs:
   output:
     description: 'Report output path relative to workspace'

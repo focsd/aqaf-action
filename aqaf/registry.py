@@ -22,6 +22,7 @@ def validate(doc, category):
         if not isinstance(doc.get('packs'),list) or not all(IDENT.fullmatch(str(x)) for x in doc['packs']):
             raise ProfileError(f'Profile {doc["id"]}: invalid packs')
         if not isinstance(doc.get('detection'),list): raise ProfileError('detection must be a list')
+        if 'fallback' in doc and not isinstance(doc['fallback'],bool): raise ProfileError(f'Profile {doc["id"]}: fallback must be true or false')
         for item in doc['detection']:
             if not isinstance(item,dict) or item.get('kind') not in SIGNALS or not isinstance(item.get('value'),str) or not 0 <= item.get('weight',-1) <= 150:
                 raise ProfileError(f'Invalid declarative detection in {doc["id"]}')
@@ -111,7 +112,8 @@ class Registry:
                 if matched: total+=weight; evidence.append(kind+':'+val)
             if evidence: candidates.append((total,id,evidence))
         if not candidates: return 'unknown_or_general_app',[], 'low', []
-        candidates.sort(key=lambda x:(-x[0],x[1]))
+        # Language-level fallback profiles only classify a project when no other profile matched at all.
+        candidates.sort(key=lambda x:(bool(self.profiles[x[1]].get('fallback')),-x[0],x[1]))
         best=candidates[0]
         # Don't treat weak, generic evidence as an authoritative classification.
         confidence='medium' if best[0]>=60 and (len(candidates)==1 or best[0]-candidates[1][0]>=20) else 'low'

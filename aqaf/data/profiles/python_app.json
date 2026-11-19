@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "python_app",
+  "name": "Python Application or Library",
+  "product_type": "automation",
+  "target_architecture": "Importable package with a thin entrypoint layer, typed settings, isolated IO adapters, pinned dependencies and a test suite run in CI.",
+  "packs": [
+    "automation"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "pyproject.toml",
+      "weight": 8
+    },
+    {
+      "kind": "file",
+      "value": "setup.py",
+      "weight": 8
+    },
+    {
+      "kind": "file",
+      "value": "requirements.txt",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".py",
+      "weight": 5
+    }
+  ],
+  "quality_priorities": [
+    "package layout",
+    "dependency pinning",
+    "test isolation",
+    "typed boundaries"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Language-level fallback that never outranks a non-fallback profile that matched.",
+  "fallback": true
+}

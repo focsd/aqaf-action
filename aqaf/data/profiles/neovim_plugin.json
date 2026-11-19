@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "neovim_plugin",
+  "name": "Neovim / Vim Plugin",
+  "product_type": "automation",
+  "target_architecture": "Lua modules under lua/ with a thin plugin/ entrypoint, documented user options in doc/, and tests run headless in CI.",
+  "packs": [
+    "automation"
+  ],
+  "detection": [
+    {
+      "kind": "path",
+      "value": "lua/",
+      "weight": 12
+    },
+    {
+      "kind": "path",
+      "value": "plugin/",
+      "weight": 12
+    },
+    {
+      "kind": "text",
+      "value": "vim.api.nvim",
+      "weight": 20
+    }
+  ],
+  "quality_priorities": [
+    "module layout",
+    "user configuration surface",
+    "help documentation",
+    "headless tests"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Matched by layout (lua/, plugin/) and the Neovim API; fallback, so it never outranks a non-fallback profile that matched. A plain .lua file alone does not classify a project.",
+  "fallback": true
+}

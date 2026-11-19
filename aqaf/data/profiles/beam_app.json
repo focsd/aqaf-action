@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "beam_app",
+  "name": "Elixir / Erlang Application",
+  "product_type": "systems",
+  "target_architecture": "OTP application with explicit supervision tree, pure core modules separate from processes, typespecs with Dialyzer, and tests run in CI.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "mix.exs",
+      "weight": 14
+    },
+    {
+      "kind": "file",
+      "value": "rebar.config",
+      "weight": 14
+    },
+    {
+      "kind": "extension",
+      "value": ".ex",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".exs",
+      "weight": 5
+    },
+    {
+      "kind": "extension",
+      "value": ".erl",
+      "weight": 8
+    }
+  ],
+  "quality_priorities": [
+    "supervision structure",
+    "process boundaries",
+    "typespecs",
+    "test coverage"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Language-level fallback that never outranks a non-fallback profile that matched.",
+  "fallback": true
+}

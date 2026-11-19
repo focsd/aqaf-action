@@ -8,7 +8,9 @@
     "google_apps_script",
     "scraper_data_pipeline",
     "ai_pipeline",
-    "mcp_agent_server"
+    "mcp_agent_server",
+    "python_app",
+    "neovim_plugin"
   ],
   "status": "mixed_coverage",
   "pack_license": "MIT",

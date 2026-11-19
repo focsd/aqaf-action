@@ -9,7 +9,11 @@
     "desktop_utility",
     "tauri_electron",
     "embedded_iot",
-    "multirepo_system"
+    "multirepo_system",
+    "go_app",
+    "c_cpp_library",
+    "beam_app",
+    "dotnet_app"
   ],
   "status": "mixed_coverage",
   "pack_license": "MIT",

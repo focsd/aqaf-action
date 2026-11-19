@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "note": "Rule maturity levels (AQAF-059). A level above 'experimental' needs recorded measured evidence in the rule's 'measured' field and thresholds set by the owner from labelled data (KIT-021). The threshold numbers are deliberately null: they are decided by the owner from measurements, not estimated here.",
+  "levels": [
+    {
+      "id": "experimental",
+      "rank": 0,
+      "meaning": "A heuristic with no recorded measurement against labelled projects. It may be useful, and it may be wrong in ways nobody has counted.",
+      "entry": "Default for every automated rule. Fixture tests exist; no labelled sample is recorded.",
+      "min_labelled_sample": null,
+      "min_precision_lower_bound": null
+    },
+    {
+      "id": "calibrated",
+      "rank": 1,
+      "meaning": "Precision was measured on a labelled sample and meets the owner's calibrated threshold; the sample and interval are recorded.",
+      "entry": "A 'measured' record (labelled sample, true positives, source, date) whose sample size and lower interval bound meet the thresholds below.",
+      "min_labelled_sample": null,
+      "min_precision_lower_bound": null
+    },
+    {
+      "id": "validated",
+      "rank": 2,
+      "meaning": "Calibrated, and re-measured on an independent labelled sample with a stricter threshold.",
+      "entry": "As calibrated, with a second independent 'measured' record and the stricter thresholds below.",
+      "min_labelled_sample": null,
+      "min_precision_lower_bound": null
+    },
+    {
+      "id": "manual",
+      "rank": -1,
+      "meaning": "A review prompt for a person. No detector exists, so precision does not apply.",
+      "entry": "validation_status is not_automated.",
+      "min_labelled_sample": null,
+      "min_precision_lower_bound": null
+    }
+  ],
+  "validation_status_to_level": {
+    "not_expert_calibrated": "experimental",
+    "synthetic_fixtures_only": "experimental",
+    "not_automated": "manual"
+  },
+  "demotion": "A rule whose measured lower bound falls below its level's threshold, or whose recorded evidence is removed, must be demoted by a recorded change: set 'maturity' to the lower level and add a 'maturity_history' entry with the date, the reason and the measurement. Catalogue-integrity tests fail while a declared level is higher than its evidence supports."
+}

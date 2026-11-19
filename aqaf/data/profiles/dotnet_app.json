@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "dotnet_app",
+  "name": ".NET Library or Application",
+  "product_type": "systems",
+  "target_architecture": "Solution with separate projects for domain and infrastructure, nullable reference types, analyzers, and unit plus integration tests in CI.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "path",
+      "value": ".csproj",
+      "weight": 12
+    },
+    {
+      "kind": "path",
+      "value": ".sln",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".cs",
+      "weight": 8
+    }
+  ],
+  "quality_priorities": [
+    "project layering",
+    "nullable and analyzer gates",
+    "test projects",
+    "package management"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Language-level fallback that never outranks a non-fallback profile that matched.",
+  "fallback": true
+}

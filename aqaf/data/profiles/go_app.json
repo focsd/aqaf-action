@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "go_app",
+  "name": "Go Service, CLI or Module",
+  "product_type": "systems",
+  "target_architecture": "cmd/ entrypoints that stay thin, internal/ packages with explicit interfaces at the edges, context-aware IO and go vet/test gates in CI.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "go.mod",
+      "weight": 12
+    },
+    {
+      "kind": "extension",
+      "value": ".go",
+      "weight": 10
+    }
+  ],
+  "quality_priorities": [
+    "cmd and internal layout",
+    "interface boundaries",
+    "error wrapping",
+    "module hygiene"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Language-level fallback; module layout and internal/ usage are not yet checked by rules.",
+  "fallback": true
+}

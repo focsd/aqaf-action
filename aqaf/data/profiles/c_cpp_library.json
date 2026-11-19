@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "c_cpp_library",
+  "name": "C / C++ Library or Program",
+  "product_type": "systems",
+  "target_architecture": "Public headers separate from implementation, a reproducible build (CMake, Meson, autotools or Make), sanitizer and static-analysis gates, and tests run in CI.",
+  "packs": [
+    "systems"
+  ],
+  "detection": [
+    {
+      "kind": "file",
+      "value": "CMakeLists.txt",
+      "weight": 12
+    },
+    {
+      "kind": "file",
+      "value": "configure.ac",
+      "weight": 12
+    },
+    {
+      "kind": "file",
+      "value": "meson.build",
+      "weight": 12
+    },
+    {
+      "kind": "file",
+      "value": "makefile",
+      "weight": 6
+    },
+    {
+      "kind": "extension",
+      "value": ".c",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".cpp",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".cc",
+      "weight": 8
+    },
+    {
+      "kind": "extension",
+      "value": ".h",
+      "weight": 5
+    }
+  ],
+  "quality_priorities": [
+    "public header surface",
+    "build reproducibility",
+    "memory-safety gates",
+    "test coverage"
+  ],
+  "source_ids": [
+    "B01",
+    "B03"
+  ],
+  "status": "experimental",
+  "coverage": "heuristic",
+  "notes": "Language-level fallback that never outranks a non-fallback profile that matched.",
+  "fallback": true
+}

@@ -8,7 +8,10 @@
     "api_backend",
     "wordpress_plugin",
     "browser_extension",
-    "npm_library"
+    "npm_library",
+    "jvm_app",
+    "php_package",
+    "ruby_gem"
   ],
   "status": "mixed_coverage",
   "pack_license": "MIT",
